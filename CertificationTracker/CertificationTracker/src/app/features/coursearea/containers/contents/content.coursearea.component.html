@@ -1,0 +1,160 @@
+<div class="table-responsive">
+  <table class="table table-hover table-nowrap">
+    <thead class="table-light">
+      <tr>
+        <th scope="col">Curriculum Area</th>
+        <th scope="col">Area</th>
+        <th scope="col">Area Description</th>
+        <th scope="col">POST Area</th>
+        <th scope="col">Archive</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let area of courseArea?.areaDetailList">
+        <td>
+          {{ area.postCurriculumAreaName }}
+        </td>
+        <td data-label="Area">
+          {{ area.postAreaName }}
+        </td>
+        <td data-label="Area Description">
+          {{ area.postAreaDescription }}
+        </td>
+        <td data-label="POST Area">
+          <span>
+            {{ area.isRequired == true ? "✔️" : "❌" }}
+          </span>
+        </td>
+        <td data-label="Archive">
+          <span
+            [ngClass]="
+              area.isRequired
+                ? 'badge bg-soft-danger text-danger'
+                : 'badge bg-soft-danger text-danger'
+            "
+          >
+            {{ area.archivedLabel }}
+            <!-- {{ area.archivedLabel == 'Yes'? '✔️': '❌' }} -->
+          </span>
+        </td>
+        <td data-label="" class="text-start">
+          <div
+            *ngIf="
+              area.isRequired == true || area.isActive != true;
+              then disable;
+              else enable
+            "
+          >
+            This content is not shown
+          </div>
+          <ng-template #disable>
+            <img
+              title="Edit"
+              src="../../../../../assets/images/ic-edit-dis.png"
+              disable
+            /><img
+              style="margin-left: 12px"
+              title="Delete"
+              src="../../../../../assets/images/ic-cancel-dis.png"
+              disable
+            />
+          </ng-template>
+          <ng-template #enable>
+            <img
+              title="Edit"
+              src="../../../../../assets/images/Edit.png"
+              (click)="OpenPOSTAreaDetail(area.postAreaID)"
+              style="cursor: pointer"
+            /><img
+              style="margin-left: 12px; cursor: pointer"
+              title="Delete"
+              src="../../../../../assets/images/ic-cancel.png"
+              (click)="DeletePOSTAreaDetail(area.postAreaID)"
+            />
+          </ng-template>
+        </td>
+      </tr>
+      <tr *ngIf="totalPages == 0">
+        <td class="text-center" colspan="6">
+          <span
+            class="badge bg-soft-danger text-danger"
+            style="margin: 1rem; font-size: 15px"
+            >No Records Found. Try with different criteria!</span
+          >
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- pagination.component.html -->
+<!-- <ul class="pagination">
+  <li class="page-item" [class.disabled]="filter.currentPage === 1">
+    <a class="page-link" (click)="onPageChange(1)">First</a>
+  </li>
+  <li class="page-item" [class.disabled]="filter.currentPage === 1">
+    <a class="page-link" (click)="onPageChange(filter.currentPage - 1)">
+      <span>&laquo;</span>
+    </a>
+  </li>
+  <li class="page-item" *ngFor="let page of generatePages()">
+    <a
+      class="page-link"
+      (click)="onPageChange(page)"
+      [class.active]="filter.currentPage === page"
+    >
+      {{ page }}
+    </a>
+  </li>
+
+  <li class="page-item" [class.disabled]="filter.currentPage === totalPages">
+    <a class="page-link" (click)="onPageChange(filter.currentPage + 1)">
+      <span>&raquo;</span>
+    </a>
+  </li>
+  <li class="page-item" [class.disabled]="filter.currentPage === totalPages">
+    <a class="page-link" (click)="onPageChange(totalPages)">Last</a>
+  </li>
+</ul> -->
+
+<ul class="pagination">
+  <li class="page-item" [class.disabled]="filter.currentPage === 1">
+    <a class="page-link arrow nav-text" id="prevPage" (click)="onPageChange(1)"
+      >First</a
+    >
+  </li>
+  <li class="page-item" [class.disabled]="filter.currentPage === 1">
+    <a class="page-link arrow" (click)="onPageChange(filter.currentPage - 1)">
+      <span>←</span>
+    </a>
+  </li>
+  <li class="page-item" *ngFor="let page of generatePages()">
+    <div class="pages">
+      <button
+        class="page-link page-number"
+        (click)="onPageChange(page)"
+        [class.active]="filter.currentPage === page"
+      >
+        {{ page }}
+      </button>
+    </div>
+  </li>
+
+  <li
+    class="page-item ms-2"
+    [class.disabled]="filter.currentPage === totalPages"
+  >
+    <a class="page-link arrow" (click)="onPageChange(filter.currentPage + 1)">
+      <span>→</span>
+    </a>
+  </li>
+  <li class="page-item" [class.disabled]="filter.currentPage === totalPages">
+    <a
+      class="page-link arrow nav-text"
+      id="nextPage"
+      (click)="onPageChange(totalPages)"
+      >Last</a
+    >
+  </li>
+</ul>

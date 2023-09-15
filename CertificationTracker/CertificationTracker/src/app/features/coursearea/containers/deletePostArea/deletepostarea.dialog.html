@@ -1,0 +1,28 @@
+<h1 class="dialog-title">Delete Area</h1>
+<div class="dialog-content m-3 text-center">
+  <h4 class="modal-title w-100">Are you sure?</h4>
+  <div class="modal-body">
+    <p>
+      Do you really want to delete these area? This process cannot be undone.
+    </p>
+  </div>
+  <div mat-dialog-actions>
+    <button
+      mat-button
+      mat-dialog-close
+      (click)="onDismiss()"
+      class="btn btn-secondary"
+    >
+      Cancel
+    </button>
+    <button
+      mat-button
+      mat-dialog-close
+      cdkFocusInitial
+      (click)="DeletePostArea(data)"
+      class="btn btn-danger ms-2"
+    >
+      Confirm
+    </button>
+  </div>
+</div>

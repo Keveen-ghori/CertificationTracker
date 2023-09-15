@@ -1,0 +1,46 @@
+<div class="">
+  <div class="card-header">
+    <h3 class="header-title">Configure Areas</h3>
+    <div class="form">
+      <i class="fa fa-search" aria-hidden="true"></i>
+      <input
+        type="text"
+        class="form-control form-input"
+        placeholder="Search anything..."
+        (input)="searchString($event)"
+      />
+    </div>
+  </div>
+</div>
+<div class="add-new">
+  <!-- <form style="margin-left: 10px">
+    <input
+      class="checkbox-effect checkbox-effect-1"
+      id="IncludeArchived"
+      type="checkbox"
+      name="include-archived"
+      (change)="searchString($event)"
+    />
+    <label for="IncludeArchived">Include Archived</label>
+  </form> -->
+  <mat-slide-toggle (change)="IncludeArchieved($event)"
+    >Include Archived</mat-slide-toggle
+  >
+
+  <input
+    id="btnAddNewArea"
+    class="btn3 first"
+    type="button"
+    value="Add New Area"
+    (click)="OpenPOSTAreaDetail(0)"
+  />
+  <!-- onclick="OpenPOSTAreaDetail(0)" -->
+  <input
+    id="btnRequirements"
+    class="btn3 first"
+    type="button"
+    value="Requirements"
+    (click)="btnRequirements_Click()"
+  />
+</div>
+<!-- onclick="btnRequirements_Click()" -->

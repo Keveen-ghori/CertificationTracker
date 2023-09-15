@@ -1,0 +1,218 @@
+<div class="menu">
+  <div class="avatar dropdown">
+    <a
+      href=""
+      role="button"
+      id="profileDropdown"
+      aria-expanded="false"
+      data-bs-toggle="dropdown"
+    >
+      <img
+        class="thumb"
+        src="https://avatars.githubusercontent.com/u/30212452"
+        width="60"
+      />
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="profileDropdown">
+      <li>
+        <a class="dropdown-item" href="" (click)="Logout(userName)">Logout</a>
+      </li>
+    </ul>
+    <span class="name">{{ userName }}</span>
+  </div>
+  <nav class="primary">
+    <a
+      routerLink="/"
+      class="menu-item"
+      [ngClass]="{ active: currentUrl === '/' }"
+    >
+      <span class="iconoir-report-columns"
+        ><svg
+          width="24px"
+          height="24px"
+          viewBox="0 0 24 24"
+          stroke-width="1.5"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+          color="#fff"
+        >
+          <path
+            d="M12 22C6.477 22 2 17.523 2 12S6.477 2 12 2s10 4.477 10 10-4.477 10-10 10zM10.5 5.5l7 11M13.5 5.5l-7 11M13.5 14h-7M17.5 14H16"
+            stroke="#fff"
+            stroke-width="1.5"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          ></path></svg
+      ></span>
+      <span class="desc">Applications</span>
+    </a>
+    <a
+      routerLink="/area"
+      [ngClass]="{ active: currentUrl === '/area' }"
+      class="menu-item"
+    >
+      <span class="iconoir-google-docs"
+        ><svg
+          width="24px"
+          height="24px"
+          stroke-width="1.5"
+          viewBox="0 0 24 24"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+          color="#ffffff"
+        >
+          <g
+            clip-path="url(#google-drive-check_svg__clip0)"
+            stroke="#ffffff"
+            stroke-width="1.5"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          >
+            <path
+              d="M9.143 3.004L14.857 3m-5.714.004L2 15.004m7.143-12l4.902 9.496m.812-9.5L5.575 21m9.282-18L21.5 14M5.575 21L2 15.004M5.575 21h6.429M2 15.004h10.5M15 19l3 3 5-5"
+            ></path>
+          </g>
+          <defs>
+            <clipPath id="google-drive-check_svg__clip0">
+              <path fill="#fff" d="M0 0h24v24H0z"></path>
+            </clipPath>
+          </defs></svg
+      ></span>
+      <span class="desc">Course Area</span>
+    </a>
+    <a href="#" class="menu-item">
+      <span class="iconoir-table"
+        ><svg
+          width="24px"
+          height="24px"
+          stroke-width="1.5"
+          viewBox="0 0 24 24"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+          color="#ffffff"
+        >
+          <path
+            d="M3 21V3h18v18H3zM3 16.5h18M3 12h18M3 7.5h18M16.5 3v18M12 3v18M7.5 3v18"
+            stroke="#ffffff"
+            stroke-width="1.5"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          ></path></svg
+      ></span>
+      <span class="desc">Enter Training Records</span>
+    </a>
+    <a href="#" class="menu-item">
+      <span class="iconoir-bag"
+        ><svg
+          width="24px"
+          height="24px"
+          stroke-width="1.5"
+          viewBox="0 0 24 24"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+          color="#ffffff"
+        >
+          <path
+            d="M9 8H4a2 2 0 00-2 2v9a2 2 0 002 2h16a2 2 0 002-2v-9a2 2 0 00-2-2h-5M9 8V3.6a.6.6 0 01.6-.6h4.8a.6.6 0 01.6.6V8M9 8h6M9 8v6m6-6v6"
+            stroke="#ffffff"
+            stroke-width="1.5"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          ></path></svg
+      ></span>
+      <span class="desc">Manage Records</span>
+    </a>
+    <a
+      routerLink="/courseconfiguration"
+      [ngClass]="{ active: currentUrl === '/courseconfiguration' }"
+      class="menu-item"
+    >
+      <span class="iconoir-user"
+        ><svg
+          width="24px"
+          height="24px"
+          stroke-width="1.5"
+          viewBox="0 0 24 24"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+          color="#ffffff"
+        >
+          <path
+            d="M5 20v-1a7 7 0 017-7v0a7 7 0 017 7v1M12 12a4 4 0 100-8 4 4 0 000 8z"
+            stroke="#ffffff"
+            stroke-width="1.5"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          ></path></svg
+      ></span>
+      <span class="desc">Course Configuration</span>
+    </a>
+    <!-- <a href="#" class="menu-item">
+      <span class="iconoir-leaderboard"
+        ><svg
+          width="24px"
+          height="24px"
+          stroke-width="1.5"
+          viewBox="0 0 24 24"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+          color="#ffffff"
+        >
+          <path
+            d="M15 19H9V8.6a.6.6 0 01.6-.6h4.8a.6.6 0 01.6.6V19zM15 5H9M20.4 19H15v-3.9a.6.6 0 01.6-.6h4.8a.6.6 0 01.6.6v3.3a.6.6 0 01-.6.6zM9 19v-5.9a.6.6 0 00-.6-.6H3.6a.6.6 0 00-.6.6v5.3a.6.6 0 00.6.6H9z"
+            stroke="#ffffff"
+            stroke-width="1.5"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          ></path></svg
+      ></span>
+      <span class="desc">Analytics</span>
+    </a>
+    <a href="#" class="menu-item">
+      <span class="iconoir-settings"
+        ><svg
+          width="24px"
+          height="24px"
+          stroke-width="1.5"
+          viewBox="0 0 24 24"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+          color="#ffffff"
+        >
+          <path
+            d="M12 15a3 3 0 100-6 3 3 0 000 6z"
+            stroke="#ffffff"
+            stroke-width="1.5"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          ></path>
+          <path
+            d="M19.622 10.395l-1.097-2.65L20 6l-2-2-1.735 1.483-2.707-1.113L12.935 2h-1.954l-.632 2.401-2.645 1.115L6 4 4 6l1.453 1.789-1.08 2.657L2 11v2l2.401.655L5.516 16.3 4 18l2 2 1.791-1.46 2.606 1.072L11 22h2l.604-2.387 2.651-1.098C16.697 18.831 18 20 18 20l2-2-1.484-1.75 1.098-2.652 2.386-.62V11l-2.378-.605z"
+            stroke="#ffffff"
+            stroke-width="1.5"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          ></path></svg
+      ></span>
+      <span class="desc">Settings</span>
+    </a> -->
+  </nav>
+  <span class="expander iconoir-arrow-right"
+    ><svg
+      width="24px"
+      height="24px"
+      viewBox="0 0 24 24"
+      stroke-width="1.5"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+      color="#fff"
+    >
+      <path
+        d="M3 12h18m0 0l-8.5-8.5M21 12l-8.5 8.5"
+        stroke="#fff"
+        stroke-width="1.5"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      ></path></svg
+  ></span>
+</div>

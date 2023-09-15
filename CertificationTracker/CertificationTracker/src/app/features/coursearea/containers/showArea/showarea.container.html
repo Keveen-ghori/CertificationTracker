@@ -1,0 +1,36 @@
+<h1 class="dialog-title">Area Details</h1>
+
+<div width="100%" class="dialog-content">
+  <table width="100%">
+    <tbody>
+      <tr>
+        <td style="width: 30%">Area Name:</td>
+        <td>{{data.postAreaName}}</td>
+      </tr>
+      <tr>
+        <td style="padding-bottom: 20px; width: 30%; line-height: 1.5rem">
+          Total Mandated Credits:
+        </td>
+        <td style="padding-bottom: 20px">{{data.postAreaCredit}}</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<div
+  width="100%"
+  style="
+    padding-top: 20px;
+    text-align: center;
+    padding-bottom: 20px;
+    line-height: 1.5rem;
+  "
+>
+  <input
+    type="button"
+    id="btnCloseRequirementDetail"
+    class="btn3"
+    (click)="CloseRequirementDetail_Click()"
+    value="Close"
+  />
+</div>

@@ -1,0 +1,55 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.6.33723.286
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CertificationTracker.API", "CertificationTracker.API.csproj", "{9AE7C891-5A64-4680-B166-AD1C54DFAACE}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CertificationTracker.Data", "..\CertificationTracker.Data\CertificationTracker.Data.csproj", "{EBFA6528-DC3E-4828-BAD3-CF3B1193670C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CertificationTracker.Application", "..\CertificationTracker.Application\CertificationTracker.Application.csproj", "{E7F1BEC6-D053-4061-80AD-34073A7C28CD}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CertificationTracker.Infrastructure", "..\CertificationTracker.Infrastructure\CertificationTracker.Infrastructure.csproj", "{B94C99F0-35B9-4C8A-AB86-D14CF8B6537D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CertificationTracker.Services", "..\CertificationTracker.Services\CertificationTracker.Services.csproj", "{F761D538-D63D-4002-BE80-4A7689519F4A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CertificationTracker.Core", "..\CertificationTracker.Core\CertificationTracker.Core.csproj", "{BC14899E-D2A3-4DF1-8AF1-9ECDF9C426E7}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{9AE7C891-5A64-4680-B166-AD1C54DFAACE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9AE7C891-5A64-4680-B166-AD1C54DFAACE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9AE7C891-5A64-4680-B166-AD1C54DFAACE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9AE7C891-5A64-4680-B166-AD1C54DFAACE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EBFA6528-DC3E-4828-BAD3-CF3B1193670C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EBFA6528-DC3E-4828-BAD3-CF3B1193670C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EBFA6528-DC3E-4828-BAD3-CF3B1193670C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EBFA6528-DC3E-4828-BAD3-CF3B1193670C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E7F1BEC6-D053-4061-80AD-34073A7C28CD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E7F1BEC6-D053-4061-80AD-34073A7C28CD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E7F1BEC6-D053-4061-80AD-34073A7C28CD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E7F1BEC6-D053-4061-80AD-34073A7C28CD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B94C99F0-35B9-4C8A-AB86-D14CF8B6537D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B94C99F0-35B9-4C8A-AB86-D14CF8B6537D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B94C99F0-35B9-4C8A-AB86-D14CF8B6537D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B94C99F0-35B9-4C8A-AB86-D14CF8B6537D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F761D538-D63D-4002-BE80-4A7689519F4A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F761D538-D63D-4002-BE80-4A7689519F4A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F761D538-D63D-4002-BE80-4A7689519F4A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F761D538-D63D-4002-BE80-4A7689519F4A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BC14899E-D2A3-4DF1-8AF1-9ECDF9C426E7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BC14899E-D2A3-4DF1-8AF1-9ECDF9C426E7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BC14899E-D2A3-4DF1-8AF1-9ECDF9C426E7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BC14899E-D2A3-4DF1-8AF1-9ECDF9C426E7}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {D5225B21-6EA5-45DF-970E-BA5B939E9831}
+	EndGlobalSection
+EndGlobal

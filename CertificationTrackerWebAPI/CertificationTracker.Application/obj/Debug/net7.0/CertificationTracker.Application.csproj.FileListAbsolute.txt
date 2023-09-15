@@ -1,0 +1,17 @@
+D:\CertificationTracker\CertificationTrackerWebAPI\CertificationTracker.Application\bin\Debug\net7.0\CertificationTracker.Application.deps.json
+D:\CertificationTracker\CertificationTrackerWebAPI\CertificationTracker.Application\bin\Debug\net7.0\CertificationTracker.Application.dll
+D:\CertificationTracker\CertificationTrackerWebAPI\CertificationTracker.Application\bin\Debug\net7.0\CertificationTracker.Application.pdb
+D:\CertificationTracker\CertificationTrackerWebAPI\CertificationTracker.Application\bin\Debug\net7.0\CertificationTracker.Core.dll
+D:\CertificationTracker\CertificationTrackerWebAPI\CertificationTracker.Application\bin\Debug\net7.0\CertificationTracker.Data.dll
+D:\CertificationTracker\CertificationTrackerWebAPI\CertificationTracker.Application\bin\Debug\net7.0\CertificationTracker.Core.pdb
+D:\CertificationTracker\CertificationTrackerWebAPI\CertificationTracker.Application\bin\Debug\net7.0\CertificationTracker.Data.pdb
+D:\CertificationTracker\CertificationTrackerWebAPI\CertificationTracker.Application\obj\Debug\net7.0\CertificationTracker.Application.csproj.AssemblyReference.cache
+D:\CertificationTracker\CertificationTrackerWebAPI\CertificationTracker.Application\obj\Debug\net7.0\CertificationTracker.Application.GeneratedMSBuildEditorConfig.editorconfig
+D:\CertificationTracker\CertificationTrackerWebAPI\CertificationTracker.Application\obj\Debug\net7.0\CertificationTracker.Application.AssemblyInfoInputs.cache
+D:\CertificationTracker\CertificationTrackerWebAPI\CertificationTracker.Application\obj\Debug\net7.0\CertificationTracker.Application.AssemblyInfo.cs
+D:\CertificationTracker\CertificationTrackerWebAPI\CertificationTracker.Application\obj\Debug\net7.0\CertificationTracker.Application.csproj.CoreCompileInputs.cache
+D:\CertificationTracker\CertificationTrackerWebAPI\CertificationTracker.Application\obj\Debug\net7.0\CertificationTracker.Application.csproj.CopyComplete
+D:\CertificationTracker\CertificationTrackerWebAPI\CertificationTracker.Application\obj\Debug\net7.0\CertificationTracker.Application.dll
+D:\CertificationTracker\CertificationTrackerWebAPI\CertificationTracker.Application\obj\Debug\net7.0\refint\CertificationTracker.Application.dll
+D:\CertificationTracker\CertificationTrackerWebAPI\CertificationTracker.Application\obj\Debug\net7.0\CertificationTracker.Application.pdb
+D:\CertificationTracker\CertificationTrackerWebAPI\CertificationTracker.Application\obj\Debug\net7.0\ref\CertificationTracker.Application.dll

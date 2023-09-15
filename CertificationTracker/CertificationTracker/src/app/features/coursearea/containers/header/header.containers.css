@@ -1,0 +1,146 @@
+.btn3 {
+  background-color: transparent;
+  border: 2px solid #375569;
+  border-radius: 0.6em;
+  color: #375569;
+  cursor: pointer;
+  align-self: center;
+  line-height: 1;
+  height: 40px;
+  text-decoration: none;
+  text-align: center;
+  text-transform: uppercase;
+  font-weight: 700;
+  padding: 0px 15px;
+}
+
+.btn3:hover,
+.btn:focus {
+  color: #fff;
+  outline: 0;
+}
+
+.first {
+  transition: box-shadow 300ms ease-in-out, color 300ms ease-in-out;
+}
+.first:hover {
+  box-shadow: 0 0 40px 40px #375569 inset;
+}
+
+.card-header {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.add-new {
+  display: flex;
+  gap: 10px;
+  justify-content: flex-end;
+  padding: 20px 24px;
+  align-items: center;
+}
+
+.form {
+  position: relative;
+}
+
+.form .fa-search {
+  position: absolute;
+  top: 15px;
+  left: 20px;
+}
+
+.form span {
+  position: absolute;
+  right: 17px;
+  top: 13px;
+  padding: 2px;
+  border-left: 1px solid #d1d5db;
+}
+
+.left-pan {
+  padding-left: 7px;
+}
+
+.left-pan i {
+  padding-left: 10px;
+}
+
+.form-input {
+  height: 45px;
+  text-indent: 33px;
+  border-radius: 10px;
+  width: 350px;
+  border: 2px solid #375569;
+  color: #375569;
+  font-weight: 500;
+}
+
+.checkbox-block {
+  display: flex;
+  justify-content: space-between;
+}
+
+.checkbox-effect:not(:checked),
+.checkbox-effect:checked {
+  position: absolute;
+  left: -9999px;
+}
+
+label {
+  cursor: pointer;
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.checkbox-effect-1:not(:checked) + label:before,
+.checkbox-effect-1:checked + label:before {
+  content: "";
+  display: inline-block;
+  width: 16px;
+  height: 16px;
+  border: 2px solid #5a5a5a;
+  box-sizing: border-box;
+  border-radius: 3px;
+  margin-right: 20px;
+}
+
+.checkbox-effect-1:not(:checked) + label:after,
+.checkbox-effect-1:checked + label:after {
+  content: "✔️";
+  font-size: 11px;
+  display: flex;
+  height: 100%;
+  align-items: center;
+  position: absolute;
+  top: 0;
+  color: #fff;
+  transform-origin: center center;
+}
+
+.checkbox-effect-1:not(:checked) + label:after {
+  transform: scale(0);
+}
+
+.checkbox-effect-1:checked + label:before {
+  /* background-color: #1b998b;
+    border-color: #1b998b; */
+  transition: mix;
+}
+
+.checkbox-effect-1:checked + label:after {
+  transform: scale(1);
+  transition: mix delay(0.2s);
+}
+
+.header-title {
+  font-size: 30px;
+  font-weight: 500;
+  line-height: 28px;
+  letter-spacing: 0.009375em;
+  margin: 0 0 16px;
+  color: #375569;
+}

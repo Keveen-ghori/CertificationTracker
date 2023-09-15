@@ -1,0 +1,77 @@
+.TabbedPanelsContent {
+  height: 500px;
+  color: #4b4b4b;
+  font-size: 13px;
+}
+
+.curriculumContent > tr > td {
+  padding: 0.5rem 1.5rem;
+}
+
+.btn3 {
+  background-color: transparent;
+  border: 2px solid #375569;
+  border-radius: 0.6em;
+  color: #375569;
+  cursor: pointer;
+  align-self: center;
+  line-height: 1;
+  height: 40px;
+  text-decoration: none;
+  text-align: center;
+  text-transform: uppercase;
+  font-weight: 700;
+  padding: 0px 15px;
+  margin-left: 5px;
+}
+
+.btn3:hover,
+.btn:focus {
+  color: #fff;
+  outline: 0;
+  background-color: #375569;
+}
+
+.curriculumContent-fields {
+  cursor: default;
+  text-decoration: underline;
+  font-weight: 600;
+  color: #375569;
+  letter-spacing: 1px;
+}
+
+.dialog-title {
+  border-color: #d2d2d2;
+  border-width: 0 0 1px 0;
+  background: #00aade;
+  padding: 0.4em 1em;
+  white-space: nowrap;
+  cursor: default;
+  font-size: 1.4em;
+  color: #fff;
+  line-height: 1.2rem;
+}
+
+.dialog-content {
+  padding: 10px;
+}
+
+.area-input {
+  width: 230px;
+  border: #d0d3d9 1px solid;
+  padding: 3px;
+  color: #60636b;
+  font-size: 12px;
+  font-family: Arial;
+  margin: 0;
+}
+
+.area-form {
+  padding: 10px;
+  height: 185.2px;
+}
+
+.area-btn {
+  margin-top: 10px;
+  padding-bottom: 20px;
+}

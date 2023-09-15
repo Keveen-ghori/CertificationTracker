@@ -1,0 +1,12 @@
+.avatar {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  vertical-align: middle;
+  font-size: 1rem;
+  font-weight: 600;
+  height: auto;
+  width: auto;
+  border-radius: 0.375rem;
+}

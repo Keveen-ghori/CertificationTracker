@@ -1,0 +1,72 @@
+<h1 class="dialog-title">Area Details</h1>
+<div class="p-2">
+  <div *ngIf="serverError != null" class="alert alert-danger">
+    {{ serverError}}
+  </div>
+  <div *ngIf="postArea?.validationMessage != null" class="alert alert-danger">
+    {{ postArea.validationMessage}}
+  </div>
+</div>
+<form [formGroup]="areaDetail" (ngSubmit)="saveAreaDetail()" class="area-form">
+  <table width="100%" cellpadding="1" cellspacing="1">
+    <tbody>
+      <tr>
+        <td align="left"><label for="Area">Area</label>:</td>
+        <td>
+          <input
+            id="Area"
+            maxlength="500"
+            name="area"
+            formControlName="area"
+            class="area-input"
+          />
+          <br />
+          <span
+            class="text-danger"
+            *ngIf="areaDetail.controls?.['area']?.dirty  && areaDetail.controls?.['area']?.errors?.['required']"
+          >
+            Please enter Area
+          </span>
+        </td>
+      </tr>
+      <tr>
+        <td align="left">
+          <label for="AreaDescription">Area Description</label>:
+        </td>
+        <td>
+          <input
+            id="AreaDescription"
+            maxlength="500"
+            name="areaDescription"
+            formControlName="areaDescription"
+            class="area-input"
+          />
+          <br />
+          <span
+            class="text-danger"
+            *ngIf="areaDetail.controls?.['areaDescription']?.dirty  && areaDetail.controls?.['areaDescription']?.errors?.['required']"
+          >
+            Please enter Area Description
+          </span>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+  <table width="100%" class="area-btn">
+    <tbody>
+      <tr style="text-align: center">
+        <td>
+          <input id="btnSaveArea" class="btn3" type="submit" value="Save" />
+          <input
+            id="btnExitArea"
+            class="btn3"
+            type="button"
+            value="Exit"
+            (click)="CloseRequirementDetail_Click()"
+          />
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</form>

@@ -1,0 +1,8 @@
+<main class="">
+  <app-sidebar *ngIf="blankUrl || !isCheckoutRoute()"></app-sidebar>
+  <app-navbar *ngIf="blankUrl || !isCheckoutRoute()"></app-navbar>
+  <div class="side">
+    <router-outlet></router-outlet>
+  </div>
+  <app-footer></app-footer>
+</main>

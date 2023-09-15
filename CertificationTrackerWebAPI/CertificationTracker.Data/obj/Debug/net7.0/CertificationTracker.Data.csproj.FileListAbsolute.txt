@@ -1,0 +1,14 @@
+D:\CertificationTracker\CertificationTrackerWebAPI\CertificationTracker.Data\bin\Debug\net7.0\CertificationTracker.Data.deps.json
+D:\CertificationTracker\CertificationTrackerWebAPI\CertificationTracker.Data\bin\Debug\net7.0\CertificationTracker.Data.runtimeconfig.json
+D:\CertificationTracker\CertificationTrackerWebAPI\CertificationTracker.Data\bin\Debug\net7.0\CertificationTracker.Data.dll
+D:\CertificationTracker\CertificationTrackerWebAPI\CertificationTracker.Data\bin\Debug\net7.0\CertificationTracker.Data.pdb
+D:\CertificationTracker\CertificationTrackerWebAPI\CertificationTracker.Data\obj\Debug\net7.0\CertificationTracker.Data.csproj.AssemblyReference.cache
+D:\CertificationTracker\CertificationTrackerWebAPI\CertificationTracker.Data\obj\Debug\net7.0\CertificationTracker.Data.GeneratedMSBuildEditorConfig.editorconfig
+D:\CertificationTracker\CertificationTrackerWebAPI\CertificationTracker.Data\obj\Debug\net7.0\CertificationTracker.Data.AssemblyInfoInputs.cache
+D:\CertificationTracker\CertificationTrackerWebAPI\CertificationTracker.Data\obj\Debug\net7.0\CertificationTracker.Data.AssemblyInfo.cs
+D:\CertificationTracker\CertificationTrackerWebAPI\CertificationTracker.Data\obj\Debug\net7.0\CertificationTracker.Data.csproj.CoreCompileInputs.cache
+D:\CertificationTracker\CertificationTrackerWebAPI\CertificationTracker.Data\obj\Debug\net7.0\CertificationTracker.Data.dll
+D:\CertificationTracker\CertificationTrackerWebAPI\CertificationTracker.Data\obj\Debug\net7.0\refint\CertificationTracker.Data.dll
+D:\CertificationTracker\CertificationTrackerWebAPI\CertificationTracker.Data\obj\Debug\net7.0\CertificationTracker.Data.pdb
+D:\CertificationTracker\CertificationTrackerWebAPI\CertificationTracker.Data\obj\Debug\net7.0\CertificationTracker.Data.genruntimeconfig.cache
+D:\CertificationTracker\CertificationTrackerWebAPI\CertificationTracker.Data\obj\Debug\net7.0\ref\CertificationTracker.Data.dll

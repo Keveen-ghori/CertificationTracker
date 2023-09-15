@@ -1,0 +1,12 @@
+<div class="card">
+  <app-course-area-header
+    (filterValue)="getUpdateFilterWithEventForSearching($event)"
+  ></app-course-area-header>
+  <app-course-area-content
+    [totalRecords]="totalRecords"
+    (filterValue)="getUpdateFilterWithEventForShorting($event)"
+    [totalPages]="totalPages"
+    [courseArea]="courseArea"
+    (currentPage)="(currentPage)"
+  ></app-course-area-content>
+</div>

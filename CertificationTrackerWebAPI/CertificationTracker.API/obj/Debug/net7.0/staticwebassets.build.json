@@ -1,0 +1,11 @@
+{
+  "Version": 1,
+  "Hash": "44KqXqKQi2Us5/041JptFvnmdrGuY+KSEQEeCK0BKEU=",
+  "Source": "CertificationTracker.API",
+  "BasePath": "_content/CertificationTracker.API",
+  "Mode": "Default",
+  "ManifestType": "Build",
+  "ReferencedProjectsConfiguration": [],
+  "DiscoveryPatterns": [],
+  "Assets": []
+}

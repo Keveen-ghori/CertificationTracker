@@ -1,0 +1,56 @@
+<div class="back"></div>
+<div class="custom-form">
+  <form [formGroup]="loginForm" (ngSubmit)="login()">
+    <h2 class="form-signin-heading">Login</h2>
+    <div *ngIf="invalidLogin" class="alert alert-danger">
+      There is some issue related to retrieving data. Please contact
+      administrator.
+    </div>
+    <div *ngIf="validationErrors != null">
+      <div
+        *ngFor="let errorMessage of validationErrors"
+        class="alert alert-danger"
+      >
+        {{ errorMessage.message }}
+      </div>
+    </div>
+    <br />
+    <label for="username" class="sr-only">UserName</label>
+    <input
+      type="text"
+      id="username"
+      name="userName"
+      formControlName="userName"
+      class="form-control"
+      placeholder="User Name"
+    />
+    <span
+      class="text-danger"
+      *ngIf="registerFormControl?.['userName']?.dirty  && registerFormControl?.['userName']?.errors?.['required']"
+    >
+      User Name is required
+    </span>
+    <br />
+    <label for="password" class="sr-only">Password</label>
+    <input
+      type="password"
+      id="password"
+      name="password"
+      formControlName="password"
+      class="form-control"
+      placeholder="Password"
+    />
+    <span
+      class="text-danger"
+      *ngIf="registerFormControl?.['password']?.dirty  && registerFormControl?.['password']?.errors?.['required']"
+    >
+      Password is required
+    </span>
+    <br />
+    <div class="signUp-link">
+      <p>Forget Password? <a href="#" class="SignInBtn-link">Reset</a></p>
+    </div>
+    <button class="btn" id="login-sub" type="submit">Log in</button>
+  </form>
+</div>
+  
