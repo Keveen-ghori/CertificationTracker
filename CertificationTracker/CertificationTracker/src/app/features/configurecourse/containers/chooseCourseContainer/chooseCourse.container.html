@@ -1,0 +1,52 @@
+<div class="choose-course-content">
+  <div class="p-field-radiobutton p-2">
+    <p-radioButton
+      name="ChooseCourse"
+      value="CreateNew"
+      [(ngModel)]="chooseCourseFromValue"
+      inputId="CreateNew"
+      (onClick)="cloneCourse(chooseCourseFromValue)"
+      label="Create New Course"
+    ></p-radioButton>
+  </div>
+  <div class="p-field-radiobutton p-2">
+    <p-radioButton
+      name="ChooseCourse"
+      value="CloneFromExisting"
+      [(ngModel)]="chooseCourseFromValue"
+      inputId="CloneFromExisting"
+      (onClick)="cloneCourse(chooseCourseFromValue)"
+      label="Clone From Existing Course"
+    ></p-radioButton>
+  </div>
+  <div>
+    <p-dropdown
+      appendTo="body"
+      [options]="cloneCourseList"
+      [(ngModel)]="selectedCourse"
+      placeholder="Select an Course"
+      optionLabel="courseTitle"
+      [filter]="true"
+      filterBy="courseTitle"
+      placeholder="Select a Course"
+      styleClass="courseDropdown"
+      [disabled]="!showDropdown"
+      [showClear]="true"
+    ></p-dropdown>
+  </div>
+</div>
+
+<div class="chooseCourseBtn">
+  <p-button
+    icon="pi pi-times"
+    label="Exit"
+    styleClass="p-button-text text-red-600 exit-btn"
+    (click)="chooseCourseExit_Click('Exit')"
+  ></p-button>
+  <p-button
+    icon="pi pi-check"
+    label="Next"
+    styleClass="p-button-text next-btn"
+    (click)="chooseCourseNext_Click('CourseDetail')"
+  ></p-button>
+</div>

@@ -1,0 +1,23 @@
+.btn3 {
+  background-color: transparent;
+  border: 2px solid #375569;
+  border-radius: 0.6em;
+  color: #375569;
+  cursor: pointer;
+  align-self: center;
+  line-height: 1;
+  height: 40px;
+  text-decoration: none;
+  text-align: center;
+  text-transform: uppercase;
+  font-weight: 700;
+  padding: 0px 15px;
+  margin-left: 5px;
+}
+
+.btn3:hover,
+.btn:focus {
+  color: #fff;
+  outline: 0;
+  background-color: #375569;
+}

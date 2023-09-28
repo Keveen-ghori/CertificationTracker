@@ -86,9 +86,7 @@ export class AuthComponent implements OnInit, OnDestroy {
         }
       },
 
-      (err: any) => {
-        this.toastr.error(err);
-      }
+      (err: any) => {}
     );
   };
 

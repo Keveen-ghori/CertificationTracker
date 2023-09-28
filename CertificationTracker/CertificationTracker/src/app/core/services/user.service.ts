@@ -19,6 +19,7 @@ import { ApiResponse } from '../interfaces/apiResponse.interface';
 import { ApplicationUser } from '../interfaces/applicationUser.interface';
 import { Router } from '@angular/router';
 import { CookieService } from 'ngx-cookie-service';
+import { NotificationService } from './notification.service';
 
 @Injectable({
   providedIn: 'root',
@@ -31,7 +32,8 @@ export class UserService implements OnDestroy {
   constructor(
     private httpClient: HttpClient,
     private router: Router,
-    private cookieService: CookieService
+    private cookieService: CookieService,
+    private notificationService: NotificationService
   ) {
     window.addEventListener('storage', this.storageEventListener.bind(this));
   }
@@ -93,6 +95,10 @@ export class UserService implements OnDestroy {
           this.stopTokenTimer();
           this.router.navigate(['login']);
           localStorage.removeItem('logout-event');
+          this.notificationService.showSuccess(
+            'You successfully logged out.',
+            'Logout'
+          );
         })
       )
       .subscribe();
@@ -101,6 +107,21 @@ export class UserService implements OnDestroy {
   refreshToken(): Observable<ApiResponse | null> {
     const refreshToken = this.cookieService.get('RefreshToken');
     const accessToken = this.cookieService.get('Token');
+    var UserName = '';
+
+    if (accessToken) {
+      const tokenParts = accessToken.split('.');
+      if (tokenParts.length === 3) {
+        const payload = tokenParts[1];
+        try {
+          const decodedPayload = JSON.parse(atob(payload));
+          UserName = decodedPayload.UserName.toString();
+        } catch (error) {
+          console.error('Error decoding JWT payload:', error);
+        }
+      }
+    }
+
     if (!refreshToken && !accessToken) {
       this.DeleteCookie();
       return of(null);
@@ -127,7 +148,12 @@ export class UserService implements OnDestroy {
             }
             return x;
           } else {
-            this.DeleteCookie();
+            this.Logout(UserName);
+            this.notificationService.showError(
+              x.messages?.[0]?.message ||
+                'Default error message' + 'Please login to the system.',
+              'Token expired'
+            );
             return x;
           }
         })

@@ -12,7 +12,7 @@ namespace CertificationTracker.Application.Dtos.CourseConfiguration
         public int pageNumber { get; set; } = 1;
         public int pageSize { get; set; } = 10;
         public string ShortOrder { get; set; } = "ASC";
-        public string ShortColumn { get; set; } = "CourseTitle";
+        public string ShortColumn { get; set; } = "Course Title";
         public string Keyword { get; set;} = string.Empty;
     }
 }

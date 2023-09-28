@@ -1,0 +1,238 @@
+.col-2 {
+  width: -webkit-calc((100% - 30px) / 2);
+  width: -moz-calc((100% - 30px) / 2);
+  width: calc((100% - 30px) / 2);
+}
+
+@media (max-width: 767px) {
+  .col-2 {
+    width: 100%;
+  }
+}
+
+.form-row {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -moz-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex-wrap: wrap;
+  -ms-flex-wrap: wrap;
+  flex-wrap: wrap;
+  -webkit-box-align: center;
+  -webkit-align-items: center;
+  -moz-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.form-row .name {
+  margin-right: 10px;
+  color: #555;
+  font-size: 15px;
+  font-weight: 700;
+}
+
+.form-row .value {
+  width: 100%;
+}
+
+/* ==========================================================================
+   #FORM
+   ========================================================================== */
+input {
+  outline: none;
+  margin: 0;
+  border: none;
+  -webkit-box-shadow: none;
+  -moz-box-shadow: none;
+  box-shadow: none;
+  width: 100%;
+  font-size: 14px;
+  font-family: inherit;
+}
+
+textarea {
+  outline: none;
+  margin: 0;
+  border: none;
+  -webkit-box-shadow: none;
+  -moz-box-shadow: none;
+  box-shadow: none;
+  width: 100%;
+  font-size: 14px;
+  font-family: inherit;
+}
+
+.radio-container {
+  display: inline-block;
+  position: relative;
+  padding-left: 30px;
+  cursor: pointer;
+  font-size: 16px;
+  color: #666;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  margin: 10px;
+}
+
+.radio-container input {
+  position: absolute;
+  opacity: 0;
+  cursor: pointer;
+}
+
+.radio-container input:checked ~ .checkmark {
+  background-color: #e5e5e5;
+}
+
+.radio-container input:checked ~ .checkmark:after {
+  display: block;
+}
+
+.radio-container .checkmark:after {
+  top: 50%;
+  left: 50%;
+  -webkit-transform: translate(-50%, -50%);
+  -moz-transform: translate(-50%, -50%);
+  -ms-transform: translate(-50%, -50%);
+  -o-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
+  width: 12px;
+  height: 12px;
+  -webkit-border-radius: 50%;
+  -moz-border-radius: 50%;
+  border-radius: 50%;
+  background: #375569;
+}
+
+.checkmark {
+  position: absolute;
+  top: 50%;
+  -webkit-transform: translateY(-50%);
+  -moz-transform: translateY(-50%);
+  -ms-transform: translateY(-50%);
+  -o-transform: translateY(-50%);
+  transform: translateY(-50%);
+  left: 0;
+  height: 20px;
+  width: 20px;
+  background-color: #e5e5e5;
+  -webkit-border-radius: 50%;
+  -moz-border-radius: 50%;
+  border-radius: 50%;
+  -webkit-box-shadow: inset 0px 1px 3px 0px rgba(0, 0, 0, 0.08);
+  -moz-box-shadow: inset 0px 1px 3px 0px rgba(0, 0, 0, 0.08);
+  box-shadow: inset 0px 1px 3px 0px rgba(0, 0, 0, 0.08);
+}
+
+.checkmark:after {
+  content: "";
+  position: absolute;
+  display: none;
+}
+
+.input--style-5 {
+  /* background: #e5e5e5; */
+  line-height: 35px;
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  border-radius: 5px;
+  padding: 0 22px;
+  font-size: 16px;
+  color: #555;
+  border: 1px solid #e5e5e5;
+}
+
+.coursedetail-container {
+  padding: 18px;
+}
+
+.input-group-desc {
+  padding-top: 5px;
+}
+
+::ng-deep .p-multiselect-filter {
+  padding: 4px;
+}
+
+::ng-deep .p-multiselect-item {
+  font-size: 13px;
+}
+::ng-deep .p-checkbox .p-checkbox-box {
+  width: 19px;
+  height: 19px;
+}
+
+::ng-deep .p-checkbox {
+  width: 19px;
+  height: 19px;
+}
+
+::ng-deep .p-calendar-w-btn {
+  height: 35px;
+}
+
+::ng-deep .p-inputnumber-buttons-stacked {
+  height: 35px;
+}
+
+::ng-deep .p-inputnumber-input {
+  width: 160px;
+}
+
+::ng-deep .p-inputnumber-button {
+  background: #9d9d9d;
+  width: 20px !important;
+  border: none;
+  color: #fff;
+}
+
+::ng-deep .p-datepicker-trigger {
+  width: 20px !important;
+  background-color: transparent;
+  border: #375569;
+  color: #375569;
+}
+
+::ng-deep .p-button:enabled:hover {
+  background: none;
+  color: #375569;
+  border-color: #375569;
+}
+
+::ng-deep .p-button.new-btn {
+  color: #375569;
+  background-color: transparent;
+  border: 1px solid #375569;
+}
+
+::ng-deep .p-button.new-btn:hover {
+  color: #fff;
+  background-color: #375569 !important;
+  border: 1px solid #375569;
+}
+
+.course-detail-dialog-btn {
+  margin-top: 20px;
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+}
+
+::ng-deep .p-datatable .p-datatable-thead {
+  font-size: 13px;
+  line-height: 10px;
+  white-space: nowrap;
+}
+
+::ng-deep .p-datatable .p-datatable-tbody > tr {
+  font-size: 13px;
+}
+
+::ng-deep .p-datatable .p-datatable-tbody > tr > td {
+  padding: 0.5rem 0.5rem;
+}

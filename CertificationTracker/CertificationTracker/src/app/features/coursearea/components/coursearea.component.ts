@@ -22,7 +22,7 @@ export class CourseAreaComponent implements OnInit {
 
   totalRecords: number = 0;
 
-  totalPages: number = 0;
+  totalPages!: number;
 
   currentPage: number = 0;
 

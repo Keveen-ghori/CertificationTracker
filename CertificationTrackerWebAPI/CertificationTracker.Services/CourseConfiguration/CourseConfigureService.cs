@@ -57,11 +57,92 @@ namespace CertificationTracker.Services.CourseConfiguration
         #endregion
 
         #region AllInsideInstructors
-        //public Task<List<Postinstructor>> AllInsideInstructors()
-        //{
-        //    List<Postinstructor> postinstructors = new();
-            
-        //}
+        public async Task<ApplicableAreas> POSTApplicableAreas(decimal POSTCourseAreaID, decimal POSTCourseID, decimal POSTAreaID = 0)
+        {
+            ApplicableAreas applicableAreas = new ApplicableAreas();
+
+            TokenValueFromCookie tokenValueFromCookie = this.tokenManager.TokenValue();
+
+            List<POSTInstructorsDto> postinstructors = await this.unitOfWorks.CourseConfigurationRepository.GetPostinstructors();
+            List<POSTInstructorsDto> lstAreaInsideInstructors = new();
+            applicableAreas.lstAllInsideInstructors = postinstructors;
+
+            applicableAreas.POSTCourseID = POSTCourseID;
+
+            applicableAreas.lstArea = await this.unitOfWorks.CourseConfigurationRepository.GetPostAreas(tokenValueFromCookie.DepartmentID);
+
+            if (POSTCourseAreaID > 0)
+            {
+                PostcourseArea courseArea = new PostcourseArea();
+                courseArea = await this.unitOfWorks.CourseConfigurationRepository.PostCourseArea(POSTCourseAreaID);
+
+                if (courseArea != null)
+                {
+                    applicableAreas.POSTCourseAreaID = courseArea.PostcourseAreaId;
+                    applicableAreas.AreaNameID = Convert.ToInt32(courseArea.PostareaId);
+
+                    //Inside Instructors
+                    applicableAreas.IncludeAllInstructors = false;
+                    lstAreaInsideInstructors = await this.unitOfWorks.CourseConfigurationRepository.GetListOfPostinstructor(courseArea.PostareaId, POSTCourseID);
+                    applicableAreas.lstInsideInstructors = lstAreaInsideInstructors;
+                    applicableAreas.lstAreaInsideInstructors = lstAreaInsideInstructors;
+
+                    if (!string.IsNullOrWhiteSpace(courseArea.PostinstructorDetail))
+                    {
+                        DataItems dataItems = new DataItems();
+                        XmlSerializer serializer = new XmlSerializer(typeof(DataItems));
+                        if (courseArea.PostinstructorDetail != null)
+                        {
+                            using (StringReader reader = new StringReader(courseArea.PostinstructorDetail!))
+                            {
+                                dataItems = (DataItems)serializer.Deserialize(reader)!;
+                            }
+
+                            if (dataItems != null && dataItems.DataItem != null)
+                            {
+                                applicableAreas.InsideInstructorsDetail = "[" + string.Join(",", dataItems.DataItem.ToList().Select(p => "{value:'" + p.PKID + "'}")) + "]";
+
+                                bool isAllInstructorsInList = true;
+                                foreach (var item in dataItems.DataItem)
+                                {
+                                    if (applicableAreas.lstInsideInstructors.Count == 0 ||
+                                        (applicableAreas.lstInsideInstructors.Count > 0 && !applicableAreas.lstInsideInstructors.Any(x => x.POSTInstructorID == Convert.ToDecimal(item.PKID))))
+                                    {
+                                        isAllInstructorsInList = false;
+                                    }
+                                }
+
+                                if (!isAllInstructorsInList)
+                                {
+                                    applicableAreas.IncludeAllInstructors = true;
+                                    applicableAreas.lstInsideInstructors = postinstructors;
+                                }
+                            }
+                        }
+                    }
+
+                    //Outside Instructors
+                    if (!string.IsNullOrWhiteSpace(courseArea.PostoutSideInstructorDetail))
+                    {
+                        DataItems dataItems = new DataItems();
+                        XmlSerializer serializer = new XmlSerializer(typeof(DataItems));
+                        if (courseArea.PostoutSideInstructorDetail != null)
+                        {
+                            using (StringReader reader = new StringReader(courseArea.PostoutSideInstructorDetail!))
+                            {
+                                dataItems = (DataItems)serializer.Deserialize(reader)!;
+                            }
+
+                            if (dataItems != null && dataItems.DataItem != null)
+                                applicableAreas.OutSideInstructorsDetail = "[" + string.Join(",", dataItems.DataItem.ToList().Select(p => "{value:'" + p.PKID + "'}")) + "]";
+                        }
+                    }
+                    applicableAreas.Credit = courseArea.AreaCredits;
+                }
+            }
+            return applicableAreas;
+
+        }
         #endregion
 
         #region checkCourseIsAlreadyExist
@@ -131,16 +212,18 @@ namespace CertificationTracker.Services.CourseConfiguration
                         //get Employee
                         DataItems dataItems;
                         XmlSerializer serializer = new XmlSerializer(typeof(DataItems));
-
-                        using (StringReader reader = new StringReader(courseDetail.DepartmentEmployeeXml!))
+                        if (courseDetail.DepartmentEmployeeXml != null)
                         {
-                            dataItems = (DataItems)serializer.Deserialize(reader)!;
-                        }
-                        if (dataItems != null && dataItems.DataItem != null)
-                        {
-                            courseConfigurations.EmployeeDetail = "[" + string.Join(",", dataItems.DataItem.ToList().Select(p => "{value:'" + p.PKID + "'}")) + "]";
-                            courseConfigurations.ListSelectedEmployee = dataItems.DataItem.Select(x => x.Value).ToArray();
-                            courseConfigurations.ListEmployee = dataItems.DataItem.Select(x => int.Parse(x.Value)).ToArray();
+                            using (StringReader reader = new StringReader(courseDetail.DepartmentEmployeeXml!))
+                            {
+                                dataItems = (DataItems)serializer.Deserialize(reader)!;
+                            }
+                            if (dataItems != null && dataItems.DataItem != null)
+                            {
+                                courseConfigurations.EmployeeDetail = "[" + string.Join(",", dataItems.DataItem.ToList().Select(p => "{value:'" + p.PKID + "'}")) + "]";
+                                courseConfigurations.ListSelectedEmployee = dataItems.DataItem.Select(x => x.Value).ToArray();
+                                courseConfigurations.ListEmployee = dataItems.DataItem.Select(x => int.Parse(x.Value)).ToArray();
+                            }
                         }
                     }
                 }
@@ -288,12 +371,14 @@ namespace CertificationTracker.Services.CourseConfiguration
                         foreach (var employeeId in postEmployeeCourse)
                         {
                             List<PostemployeeCourseArea> postEmployeeCourseArea = await this.unitOfWorks.CourseConfigurationRepository.PostemployeeCourseAreas(employeeId.PostemployeeCourseId.ToString());
-                            if (postEmployeeCourseArea != null && postEmployeeCourseArea.Any())
+                            for (int i = 0; i < postEmployeeCourseArea.Count; i++)
                             {
+                                if (postEmployeeCourseArea != null && postEmployeeCourseArea.Any())
+                                {
+                                    this.unitOfWorks.CourseConfigurationRepository.DeletePostEmployeeCourse(employeeId.PostemployeeCourseId);
+                                }
 
                             }
-
-                            this.unitOfWorks.CourseConfigurationRepository.DeletePostEmployeeCourse(employeeId.PostemployeeCourseId);
                         }
                     }
                 }
@@ -516,14 +601,17 @@ namespace CertificationTracker.Services.CourseConfiguration
                     //get Employee
                     DataItems dataItems;
                     XmlSerializer serializer = new XmlSerializer(typeof(DataItems));
-                    using (StringReader reader = new StringReader(courseDetail.DepartmentEmployeeXml!))
+                    if (courseDetail.DepartmentEmployeeXml != null)
                     {
-                        dataItems = (DataItems)serializer.Deserialize(reader)!;
-                    }
+                        using (StringReader reader = new StringReader(courseDetail.DepartmentEmployeeXml!))
+                        {
+                            dataItems = (DataItems)serializer.Deserialize(reader)!;
+                        }
 
-                    if (dataItems != null && dataItems.DataItem != null)
-                    {
-                        courseConfigurations.EmployeeDetail = string.Join(";  ", dataItems.DataItem.ToList().Select(p => p.DisplayString));
+                        if (dataItems != null && dataItems.DataItem != null)
+                        {
+                            courseConfigurations.EmployeeDetail = string.Join(";  ", dataItems.DataItem.ToList().Select(p => p.DisplayString));
+                        }
                     }
 
                 }
@@ -538,6 +626,44 @@ namespace CertificationTracker.Services.CourseConfiguration
 
             return courseConfigurations;
 
+        }
+
+        #endregion
+
+        #region Check Records Exists
+        public async Task<bool> CheckTrainingRecordAvailForEmployee(decimal POSTCourseID)
+        {
+            bool returnValue = false;
+            List<PostemployeeCourse> postEmployeeCourse = await this.unitOfWorks.CourseConfigurationRepository.GetPostEmployeeCourses(POSTCourseID);
+
+            if (postEmployeeCourse != null && postEmployeeCourse.Any())
+            {
+                returnValue = true;
+            }
+            return returnValue;
+        }
+
+        #endregion
+
+        #region Valid Course At Server
+        public async Task<string> ValidateCourseAtServer(decimal POSTCourseID)
+        {
+            string errorMessage = "";
+            List<PostcourseArea> courseAreas = new List<PostcourseArea>();
+            courseAreas = await this.unitOfWorks.CourseConfigurationRepository.postcourseAreas(POSTCourseID);
+
+            if (courseAreas != null && courseAreas.Any())
+            {
+                if (courseAreas[0].Postcourse != null && courseAreas[0]?.Postcourse?.DepartmentEmployeeXml == null)
+                {
+                    errorMessage = "Please select Employee before confirm training";
+                }
+            }
+            else
+            {
+                errorMessage = "Please select applicable areas before confirm training";
+            }
+            return errorMessage;
         }
         #endregion
     }

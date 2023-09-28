@@ -36,5 +36,9 @@ namespace CertificationTracker.Application.Contracts
 
         Task<Postcourse> CreateCourse(Postcourse course);
         void CreateCourseArea(PostcourseArea postcourseArea);
-    } 
+        Task<List<POSTInstructorsDto>> GetPostinstructors();
+        Task<List<POSTAreaListDetail>> GetPostAreas(int DepartmentID);
+        Task<PostcourseArea> PostCourseArea(decimal POSTCourseAreaID);
+        Task<List<POSTInstructorsDto>> GetListOfPostinstructor(decimal? POSTAreaId, decimal POSTCourseID);
+    }
 }

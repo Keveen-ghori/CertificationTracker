@@ -1,5 +1,5 @@
 export interface POSTCoursesDetail {
-  pOSTCourseID: number;
+  postCourseID: number;
   postCourseAreaID: number;
   courseHours: number;
   courseTitle: string;

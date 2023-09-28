@@ -180,8 +180,8 @@ namespace CertificationTracker.API.Controllers
                 var principal = this.tokenService.GetPrincipalFromExpiredToken(accessToken);
                 var username = principal.Identity.Name;
                 var user = await this.authService.UserByUserName(username);
-                if (user is null || user.RefreshToken != refreshToken || user.RefreshTokenExpiry <= DateTime.Now)
-                    return apiResponse.HandleException("Invalid client request");
+                if (user is null || user.RefreshTokenExpiry <= DateTime.Now)
+                    return apiResponse.HandleException("Invalid client request. Token has been expired.");
 
                 User principleUser = new();
                 principleUser = await this.authService.GetUser(user.UserId);

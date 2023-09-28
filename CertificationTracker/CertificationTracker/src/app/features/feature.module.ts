@@ -40,6 +40,47 @@ import { ToastrModule } from 'ngx-toastr';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { CourseConfigurationComponent } from './configurecourse/components/courseconfiguration.component';
+import { TableModule } from 'primeng/table';
+
+import { ToolbarModule } from 'primeng/toolbar';
+import { ButtonModule } from 'primeng/button';
+import { InputTextModule } from 'primeng/inputtext';
+import { CardModule } from 'primeng/card';
+import { PanelModule } from 'primeng/panel';
+import { PaginatorModule } from 'primeng/paginator';
+import { InputSwitchModule } from 'primeng/inputswitch';
+import { DialogService, DynamicDialogModule } from 'primeng/dynamicdialog';
+import { DialogModule } from 'primeng/dialog';
+import { ChooseCourseContainer } from './configurecourse/containers/chooseCourseContainer/chooseCourse.container';
+import { RadioButtonModule } from 'primeng/radiobutton';
+import { DropdownModule } from 'primeng/dropdown';
+import { ImageModule } from 'primeng/image';
+import { CourseDetailDialog } from './configurecourse/containers/courseDetailDialog/courseDetailDialog.container';
+import { MultiSelectModule } from 'primeng/multiselect';
+import { CalendarModule } from 'primeng/calendar';
+import { InputNumberModule } from 'primeng/inputnumber';
+import { CourseRecordsExistsDialog } from './configurecourse/containers/checkRecordsExistsDialog/checkRecordsExistsDialog.container';
+import { ConfirmDialogModule } from 'primeng/confirmdialog';
+
+
+const primeng = [
+  ToolbarModule,
+  ButtonModule,
+  InputTextModule,
+  CardModule,
+  PanelModule,
+  PaginatorModule,
+  InputSwitchModule,
+  DynamicDialogModule,
+  DialogModule,
+  RadioButtonModule,
+  DropdownModule,
+  ImageModule,
+  MultiSelectModule,
+  CalendarModule,
+  InputNumberModule,
+  ConfirmDialogModule,
+];
 
 const materialModules = [
   MatButtonModule,
@@ -66,6 +107,8 @@ const materialModules = [
     BrowserAnimationsModule,
     materialModules,
     ToastrModule.forRoot(),
+    TableModule,
+    primeng,
   ],
   exports: [
     RouterModule,
@@ -89,6 +132,9 @@ const materialModules = [
     RequirementsPanelContainer,
     POSTAreaDetailDialog,
     CourseConfigurationComponent,
+    ChooseCourseContainer,
+    CourseDetailDialog,
+    CourseRecordsExistsDialog,
   ],
   providers: [
     {
@@ -99,13 +145,14 @@ const materialModules = [
     },
     { provide: HTTP_INTERCEPTORS, useClass: TokenInterceptor, multi: true },
     { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
-    {
-      provide: HTTP_INTERCEPTORS,
-      useClass: UnauthorizedInterceptor,
-      multi: true,
-    },
+    // {
+    //   provide: HTTP_INTERCEPTORS,
+    //   useClass: UnauthorizedInterceptor,
+    //   multi: true,
+    // },
     AuthGuard,
     POSTCourseAreaService,
+    DialogService,
   ],
 })
 export class FeatureModule {}

@@ -195,7 +195,7 @@ namespace CertificationTracker.API.Controllers
                 IsSaveSucess = await this.courseConfigureService.SaveCourseWithEmployeeDetail(courseTrainingDetail);
                 if (IsSaveSucess)
                 {
-                    this.courseConfigureService.AddDefaultInstructorTughtHour(courseTrainingDetail.POSTCourseID);
+                    this.courseConfigureService.AddDefaultInstructorTughtHour(courseTrainingDetail.POSTCourseID);   
                 }
                 return apiResponse.HandleResponse(IsSaveSucess);
             }
@@ -215,6 +215,8 @@ namespace CertificationTracker.API.Controllers
             try
             {
                 string postCourseID = string.Empty;
+                
+                postCourseID = await this.courseConfigureService.SaveCourseDetails(configurations);
 
                 return apiResponse.HandleResponse(postCourseID);
             }
@@ -232,16 +234,78 @@ namespace CertificationTracker.API.Controllers
         public async Task<ApiResponse<ApplicableAreas>> ApplicableAreaDetail(decimal POSTCourseAreaID, decimal POSTCourseID, decimal POSTAreaID = 0)
         {
             var apiResponse = new ApiResponse<ApplicableAreas>();
-            try {
+            try
+            {
                 ApplicableAreas applicableAreas = new();
+                applicableAreas = await this.courseConfigureService.POSTApplicableAreas(POSTCourseAreaID, POSTCourseID, POSTAreaID);
+
 
                 return apiResponse.HandleResponse(applicableAreas);
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 return apiResponse.HandleException(ex.Message);
             }
         }
         #endregion
+
+        #region CheckTrainingRecordAvailForEmployee
+        [HttpGet]
+        [Route("CheckTrainingRecordAvailForEmployee")]
+        public async Task<ApiResponse<bool>> CheckTrainingRecordAvailForEmployee(decimal POSTCourseID)
+        {   
+            var apiResponse = new ApiResponse<bool>();
+            try
+            {
+                bool returnValue = false;
+                returnValue = await this.courseConfigureService.CheckTrainingRecordAvailForEmployee(POSTCourseID);
+                return apiResponse.HandleResponse(returnValue);
+            }
+            catch (Exception ex)
+            {
+                return apiResponse.HandleException(ex.Message);
+            }
+
+        }
+        #endregion
+
+        #region ValidateCourseAtServer
+        [HttpGet]
+        [Route("ValidateCourseAtServer")]
+        public async Task<ApiResponse<string>> ValidateCourseAtServer(decimal POSTCourseID)
+        {
+            var apiResponse = new ApiResponse<string>();
+            try {
+                string errorMessage = "";
+                errorMessage = await this.courseConfigureService.ValidateCourseAtServer(POSTCourseID);
+                return apiResponse.HandleResponse(errorMessage);
+            }
+            catch (Exception ex)
+            {
+                return apiResponse.HandleException(ex.Message);
+            }
+
+        }
+        #endregion
+
+        #region SaveCourseWithEmployeeDetail
+        [HttpPost]
+        [Route("SaveCourseWithEmployeeDetail")]
+        public async Task<ApiResponse<bool>> SaveCourseWithEmployeeDetail(CourseTrainingDetail courseTrainingDetail)
+        {
+            var apiResponse = new ApiResponse<bool>();
+            try
+            {
+                bool IsSaveSucess = false;
+                IsSaveSucess = await this.courseConfigureService.SaveCourseWithEmployeeDetail(courseTrainingDetail);
+                return apiResponse.HandleResponse(IsSaveSucess);
+            }
+            catch (Exception ex)
+            {
+                return apiResponse.HandleException(ex.Message);
+            }
+        }
+        #endregion
+
     }
 }

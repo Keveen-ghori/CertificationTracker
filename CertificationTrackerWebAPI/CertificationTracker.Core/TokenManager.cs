@@ -61,7 +61,6 @@ namespace CertificationTracker.Core
                         tokenValueFromCookie.DepartmentName = jwtSecurityToken.Payload["DepartmentName"].ToString();
                         tokenValueFromCookie.AgencyID = Convert.ToInt64(jwtSecurityToken.Payload["AgencyID"]);
                         tokenValueFromCookie.UserName = jwtSecurityToken.Payload["UserName"].ToString();
-                        tokenValueFromCookie.role = jwtSecurityToken.Payload["role"] as string[];
                     }
 
                     return tokenValueFromCookie;

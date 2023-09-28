@@ -15,6 +15,6 @@ namespace CertificationTracker.Core.Constants
         public string DepartmentName { get; set; } = string.Empty;
         public long AgencyID { get; set; }
         public string UserName { get; set; } = string.Empty;
-        public string[]? role { get; set; }
+        //public string[]? role { get; set; }
     }
 }

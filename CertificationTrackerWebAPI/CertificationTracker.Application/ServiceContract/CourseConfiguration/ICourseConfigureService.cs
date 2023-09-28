@@ -24,6 +24,8 @@ namespace CertificationTracker.Application.ServiceContract.CourseConfiguration
         void AddDefaultInstructorTughtHour(decimal POSTCourseID);
 
         Task<string> SaveCourseDetails(CourseConfigurations configurations);
-        //Task<List<Postinstructor>> AllInsideInstructors();
+        Task<ApplicableAreas> POSTApplicableAreas(decimal POSTCourseAreaID, decimal POSTCourseID, decimal POSTAreaID = 0);
+        Task<bool> CheckTrainingRecordAvailForEmployee(decimal POSTCourseID);
+        Task<string> ValidateCourseAtServer(decimal POSTCourseID);
     }
 }

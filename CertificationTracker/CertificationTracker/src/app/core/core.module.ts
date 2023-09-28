@@ -16,7 +16,7 @@ import { CommonModule } from '@angular/common';
 import { UserService } from './services/user.service';
 import { appInitializer } from './services/appInitializer';
 import { TokenInterceptor } from './interceptors/token.interpreter';
-import { UnauthorizedInterceptor } from './interceptors/unauthorized.Interceptor';
+// import { UnauthorizedInterceptor } from './interceptors/unauthorized.Interceptor';
 import { ErrorInterceptor } from './interceptors/error.interpreter';
 
 @NgModule({
@@ -32,11 +32,6 @@ import { ErrorInterceptor } from './interceptors/error.interpreter';
     },
     { provide: HTTP_INTERCEPTORS, useClass: TokenInterceptor, multi: true },
     { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
-    {
-      provide: HTTP_INTERCEPTORS,
-      useClass: UnauthorizedInterceptor,
-      multi: true,
-    },
   ],
 })
 export class CoreModule {

@@ -107,7 +107,7 @@ namespace CertificationTracker.Infrastructure.Repositories.CourseConfiguration
                                 .Select(course => new CloneCourseList
                                 {
                                     CourseTitle = course.CourseTitle + (course.CourseStartDate != null ? " (" + course.CourseStartDate.Value.ToString("MM/dd/yyyy") + ")" : ""),
-                                    PostcourseId = course.PostcourseId
+                                    PostCourseId = course.PostcourseId
                                 })
                                 .ToListAsync();
 
@@ -231,13 +231,16 @@ namespace CertificationTracker.Infrastructure.Repositories.CourseConfiguration
                                             DataItems dataItems;
                                             XmlSerializer serializer = new XmlSerializer(typeof(DataItems));
 
-                                            using (StringReader reader = new StringReader(applicableAreas.Instructors!))
+                                            if (applicableAreas.Instructors != null)
                                             {
-                                                dataItems = (DataItems)serializer.Deserialize(reader)!;
-                                            }
-                                            if (dataItems != null && dataItems.DataItem != null && dataItems.DataItem.Count > 0)
-                                                applicableAreas.Instructors = string.Join(", ", dataItems.DataItem.ToList().ConvertAll<string>(x => x.DisplayString).ToArray());
+                                                using (StringReader reader = new StringReader(applicableAreas.Instructors!))
+                                                {
+                                                    dataItems = (DataItems)serializer.Deserialize(reader)!;
+                                                }
+                                                if (dataItems != null && dataItems.DataItem != null && dataItems.DataItem.Count > 0)
+                                                    applicableAreas.Instructors = string.Join(", ", dataItems.DataItem.ToList().ConvertAll<string>(x => x.DisplayString).ToArray());
 
+                                            }
                                         }
 
                                         applicableAreas.OutSideInstructors = row["OutSideInstructors"] == DBNull.Value ? "" : (string)row["OutSideInstructors"];
@@ -246,14 +249,16 @@ namespace CertificationTracker.Infrastructure.Repositories.CourseConfiguration
                                         {
                                             DataItems dataItems;
                                             XmlSerializer serializer = new XmlSerializer(typeof(DataItems));
-
-                                            using (StringReader reader = new StringReader(applicableAreas.OutSideInstructors!))
+                                            if (applicableAreas.OutSideInstructors != null)
                                             {
-                                                dataItems = (DataItems)serializer.Deserialize(reader)!;
-                                            }
+                                                using (StringReader reader = new StringReader(applicableAreas.OutSideInstructors!))
+                                                {
+                                                    dataItems = (DataItems)serializer.Deserialize(reader)!;
+                                                }
 
-                                            if (dataItems != null && dataItems.DataItem != null && dataItems.DataItem.Count > 0)
-                                                applicableAreas.OutSideInstructors = string.Join(", ", dataItems.DataItem.ToList().ConvertAll<string>(x => x.DisplayString).ToArray());
+                                                if (dataItems != null && dataItems.DataItem != null && dataItems.DataItem.Count > 0)
+                                                    applicableAreas.OutSideInstructors = string.Join(", ", dataItems.DataItem.ToList().ConvertAll<string>(x => x.DisplayString).ToArray());
+                                            }
                                         }
 
                                         applicableAreas.ApplicableAreas = row["ApplicableAreas"] == DBNull.Value ? "" : (string)row["ApplicableAreas"];
@@ -299,7 +304,7 @@ namespace CertificationTracker.Infrastructure.Repositories.CourseConfiguration
                 {
                     connection.Open();
 
-                    using (SqlCommand cmdRating = new("POSTCourseDetailList", connection))
+                    using (SqlCommand cmdRating = new("POSTCourseDetailListsModifies", connection))
                     {
                         cmdRating.CommandType = CommandType.StoredProcedure;
                         cmdRating.CommandTimeout = 120;
@@ -308,10 +313,11 @@ namespace CertificationTracker.Infrastructure.Repositories.CourseConfiguration
                         {
                             cmdRating.Parameters.AddWithValue("@IncludeArchived", configureCourseFilterParams.includeArchived);
                             cmdRating.Parameters.AddWithValue("@DepartmentID", DepartmentID);
-                            cmdRating.Parameters.AddWithValue("@PageNo", configureCourseFilterParams.pageNumber);
+                            cmdRating.Parameters.AddWithValue("@pageNumber", configureCourseFilterParams.pageNumber);
                             cmdRating.Parameters.AddWithValue("@PageSize", configureCourseFilterParams.pageSize);
                             cmdRating.Parameters.AddWithValue("@SortColumn", configureCourseFilterParams.ShortColumn);
-                            cmdRating.Parameters.AddWithValue("@SearchString", configureCourseFilterParams.Keyword);
+                            cmdRating.Parameters.AddWithValue("@Keyword", configureCourseFilterParams.Keyword);
+                            cmdRating.Parameters.AddWithValue("@ShortOrder", configureCourseFilterParams.ShortOrder);
 
                             try
                             {
@@ -334,13 +340,12 @@ namespace CertificationTracker.Infrastructure.Repositories.CourseConfiguration
                                         postCourseDetail.OutSideInstructorDetail = row["OutSideInstructorDetail"] == DBNull.Value ? "" : (string)row["OutSideInstructorDetail"];
                                         postCourseDetail.POSTCourseAreas = row["POSTCourseAreas"] == DBNull.Value ? "" : (string)row["POSTCourseAreas"];
                                         postCourseDetail.Instructors = row["Instructors"] == DBNull.Value ? "" : (string)row["Instructors"];
-                                        postCourseDetail.Employees = row["Employees"] == DBNull.Value ? "" : (string)row["Employees"];
                                         postCourseDetail.IsTrainingRecordAvailable = row["IsTrainingRecordAvailable"] == DBNull.Value
                                         ? false
                                         : (int)row["IsTrainingRecordAvailable"] == 1
                                             ? true
                                             : false;
-                                        postCourseDetail.TotalRecordsCount = row["TotalRecordsCount"] == DBNull.Value ? 0 : (long)row["TotalRecordsCount"];
+                                        postCourseDetail.TotalRecordsCount = row["TotalRecords"] == DBNull.Value ? 0 : Convert.ToInt64(row["TotalRecords"]);
 
 
                                         postCoursesDetails.Add(postCourseDetail);
@@ -420,6 +425,7 @@ namespace CertificationTracker.Infrastructure.Repositories.CourseConfiguration
         public void SaveEmployeeAttendance(Postcourse course)
         {
             this.context.Postcourses.Update(course);
+            this.context.SaveChanges();
         }
 
         public async Task<Postcourse> CreateCourse(Postcourse course)
@@ -449,5 +455,73 @@ namespace CertificationTracker.Infrastructure.Repositories.CourseConfiguration
             this.context.PostcourseAreas.Add(postcourseArea);
             this.context.SaveChanges(true);
         }
+
+        #region Post Inside Instructor
+        public async Task<List<POSTInstructorsDto>> GetPostinstructors()
+        {
+
+            List<POSTInstructorsDto> postinstructors = await this.context.Postinstructors
+                                    .Include(i => i.DepartmentEmployee)
+                                    .OrderBy(i => i.DepartmentEmployee.FullName)
+                                    .Select(i => new POSTInstructorsDto
+                                    {
+                                        POSTInstructorID = i.PostinstructorId,
+                                        InstructorName = i.DepartmentEmployee.FullName + " (" + (i.InstructorIdnumber ?? 0).ToString() + ")",
+                                        InstructorIDNumber = i.InstructorIdnumber
+                                    })
+                                    .ToListAsync();
+
+            return postinstructors;
+        }
+
+        public async Task<List<POSTAreaListDetail>> GetPostAreas(int DepartmentID)
+        {
+            List<POSTAreaListDetail> postAreas = await this.context.Postareas
+                .Where(area => area.IsActive == true && (area.DepartmentId == null || area.DepartmentId == DepartmentID))
+                .OrderBy(area => area.Area)
+                .Select(area => new POSTAreaListDetail
+                {
+                    POSTAreaID = area.PostareaId,
+                    PostAreaName = area.Area != null ? area.Area + "-" + area.AreaDescription ?? "" : area.AreaDescription ?? ""
+                })
+                .ToListAsync();
+
+            return postAreas;
+        }
+
+        public async Task<PostcourseArea> PostCourseArea(decimal POSTCourseAreaID)
+        {
+            PostcourseArea postCourseArea = await this.context.PostcourseAreas.Where(area => area.PostcourseAreaId == POSTCourseAreaID).FirstOrDefaultAsync();
+
+            return postCourseArea;
+        }
+
+        public async Task<List<POSTInstructorsDto>> GetListOfPostinstructor(decimal? POSTAreaId, decimal POSTCourseID)
+        {
+            List<POSTInstructorsDto> postInstructors = await this.context.Postinstructors
+                .Include(i => i.DepartmentEmployee)
+                .Include(i => i.PostinstructorCertifiedAreas)
+                .Where(i => i.PostinstructorCertifiedAreas
+                            .Any(p => p.PostareaId == POSTAreaId) &&
+                            i.IsActive == true &&
+                            i.PostinstructorCertifiedAreas.All(p => p.IsActive == true) &&
+                            i.CertifiedExpDate >= this.context.Postcourses
+                                .Where(c => c.PostcourseId == POSTCourseID)
+                                .Select(c => c.CourseEndDate)
+                                .FirstOrDefault())
+                .OrderBy(i => i.DepartmentEmployee.FullName)
+                .Select(i => new POSTInstructorsDto
+                {
+                    POSTInstructorID = i.PostinstructorId,
+                    InstructorName = i.DepartmentEmployee.FullName + " (" + (i.InstructorIdnumber ?? 0) + ")",
+                    InstructorIDNumber = i.InstructorIdnumber
+                })
+                .ToListAsync();
+
+            return postInstructors;
+        }
+
+
+        #endregion
     }
 }

@@ -159,8 +159,18 @@ namespace CertificationTracker.Infrastructure.Repositories.Account
 
         public void UpdateTokenValue(UserToken userToken)
         {
-            this.context.UserTokens.Update(userToken);
-            this.context.SaveChanges();
+            var existingToken = this.context.UserTokens.Where(token => token.UserId == userToken.UserId).FirstOrDefault();
+            if (existingToken != null)
+            {
+                existingToken.Token = userToken.Token;
+                existingToken.Expired = false;
+                existingToken.AddedOn = DateTime.Now;
+                existingToken.AddedName = userToken.AddedName;
+                existingToken.RefreshToken = userToken.RefreshToken;
+                existingToken.RefreshTokenExpiry = userToken.RefreshTokenExpiry;
+
+                this.context.SaveChanges();
+            }
         }
 
         public async Task<UserToken> GetUserToken(Expression<Func<UserToken, bool>> expression)

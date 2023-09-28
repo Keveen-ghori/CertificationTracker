@@ -1,0 +1,75 @@
+::ng-deep .p-button.next-btn {
+  color: #375569;
+  background-color: transparent;
+  border: 1px solid #375569;
+}
+
+::ng-deep .p-button.next-btn:hover {
+  background-color: #375569 !important;
+  border: 1px solid #375569;
+  color: #fff !important;
+}
+
+::ng-deep .p-button.exit-btn {
+  background-color: transparent;
+  border: 1px solid rgb(217, 52, 43);
+}
+
+::ng-deep .p-button.exit-btn:hover {
+  background-color: rgb(217, 52, 43) !important;
+  color: #fff !important;
+}
+
+.chooseCourseBtn {
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+  align-items: center;
+}
+
+.choose-course-content {
+  height: 198px;
+  padding: 10px;
+}
+
+::ng-deep .p-dropdown.courseDropdown {
+  margin-left: 7px;
+  margin-top: 4px;
+  width: 100%;
+}
+
+::ng-deep .p-dropdown {
+  overflow: hidden;
+}
+
+::ng-deep .p-dropdown-panel {
+  font-size: 12px !important;
+  width: 582px;
+  border-left: 1px solid #b9b9b9;
+  border-right: 1px solid #b9b9b9;
+  border-bottom: 1px solid #b9b9b9;
+  border-top: 0px;
+}
+
+::ng-deep .p-dropdown-panel.p-dropdown-item {
+  padding: 0 !important;
+}
+
+::ng-deep .p-dialog-header {
+  padding: 20px !important;
+  text-align: center !important;
+  border-bottom: 1px solid #e0e0e0 !important;
+  text-transform: uppercase;
+  background: #375569 !important;
+  color: #fff !important;
+  border-radius: 4px 4px 0 0 !important;
+  height: 30px !important;
+}
+
+::ng-deep .p-dialog-header-close-icon {
+  color: #fff !important;
+}
+
+::ng-deep .p-dialog .p-dialog-header .p-dialog-header-icon:enabled:hover {
+  background-color: rgb(172 181 181 / 50%);
+}

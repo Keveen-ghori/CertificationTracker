@@ -29,7 +29,6 @@ export class UnauthorizedInterceptor implements HttpInterceptor {
   ): Observable<HttpEvent<unknown>> {
     return next.handle(request).pipe(
       catchError((err: HttpErrorResponse) => {
-        debugger;
         if (err.status === 401) {
           this.router.navigate(['/'], {
             queryParams: { returnUrl: this.router.routerState.snapshot.url },
@@ -48,21 +47,25 @@ export class UnauthorizedInterceptor implements HttpInterceptor {
         }
 
         if (err.status == 0) {
-          const tokenParts = this.cookieService.get('Token').split('.');
-          if (tokenParts.length === 3) {
-            const payload = tokenParts[1];
-            try {
-              const decodedPayload = JSON.parse(atob(payload));
-              this.userService.Logout(decodedPayload.UserName.toString());
-              this.toaster.showError(
-                'Problems while connecting to the server',
-                'Server Unaccessible.'
-              );
-            } catch (error) {
-              console.error('Error decoding JWT payload:', error);
-              this.toaster.showError('error', 'Error decoding JWT payload.');
-            }
-          }
+          // const tokenParts = this.cookieService.get('Token').split('.');
+          // if (tokenParts.length === 3) {
+          //   const payload = tokenParts[1];
+          //   try {
+          //     const decodedPayload = JSON.parse(atob(payload));
+          //     this.userService.Logout(decodedPayload.UserName.toString());
+          //     this.toaster.showError(
+          //       'Problems while connecting to the server',
+          //       'Server Unaccessible.'
+          //     );
+          //   } catch (error) {
+          //     console.error('Error decoding JWT payload:', error);
+          //     this.toaster.showError('error', 'Error decoding JWT payload.');
+          //   }
+          // }
+          this.toaster.showError(
+            'Problems while connecting to the server',
+            'Server Unaccessible.'
+          );
         }
         const error = (err && err.error && err.message) || err.statusText;
         return throwError(error);

@@ -32,32 +32,30 @@ namespace CertificationTracker.Application.Dtos.CourseConfiguration
         public string State { get; set; } = string.Empty;
         public string Zip { get; set; } = string.Empty;     
         public string LocationString { get; set; } = string.Empty;
-        public bool ArchivedCourses { get; set; }
-        [DataType(DataType.Date)]
-        public DateTime? InstructorCertificationExpiresDate { get; set; }
+        //public bool ArchivedCourses { get; set; }
+        //[DataType(DataType.Date)]
+        //public DateTime? InstructorCertificationExpiresDate { get; set; }
         public string Comment { get; set; } = string.Empty;
         public string EmployeeDetail { get; set; } = string.Empty;
-        public List<Postemployee> _ListPOSTEmployee { get; set; } = new List<Postemployee>();
+        //public List<Postemployee> _ListPOSTEmployee { get; set; } = new List<Postemployee>();
         public int[] ListEmployee { get; set; } = new int[0];
         public string[] ListSelectedEmployee { get; set; } = new string[0];
         public List<DataItemType> lstEmployees { get; set; } = new List<DataItemType>(); 
 
-        //Configure POST Courses
-        [Display(Name = "Include Archived")]
-        public bool ArchivedArea { get; set; }
+        //public bool ArchivedArea { get; set; }
 
-        public List<POSTAreaDetail> AreaDetailList { get; set; } = new List<POSTAreaDetail>();
+        //public List<POSTAreaDetail> AreaDetailList { get; set; } = new List<POSTAreaDetail>();
 
-        public List<POSTCoursesDetail> POSTCoursesList { get; set; } = new List<POSTCoursesDetail>();
+        //public List<POSTCoursesDetail> POSTCoursesList { get; set; } = new List<POSTCoursesDetail>();
 
         public List<POSTApplicableAreaDetail> POSTApplicableAreaDetails { get; set; } = new List<POSTApplicableAreaDetail>();
 
         //Choose Course
-        public bool ChooseCourse { get; set; }
+        //public bool ChooseCourse { get; set; }
         public int CloneCourseID { get; set; }
-        public List<Postcourse> lstCloneCourse { get; set; } = new List<Postcourse>();
+        //public List<Postcourse> lstCloneCourse { get; set; } = new List<Postcourse>();
 
-        public int IncludeArchived { get; set; }
+        //public int IncludeArchived { get; set; }
         public int MainCourseIDOfClone { get; set; }
 
     }

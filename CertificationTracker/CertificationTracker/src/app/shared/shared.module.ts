@@ -5,9 +5,16 @@ import { RouterModule } from '@angular/router';
 import { FooterComponent } from './components/footer/footer.component';
 import { NavbarComponent } from './components/navbar/navbar.component';
 import { SidebarComponent } from './components/sidebar/sidebar.component';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { SpinnerComponent } from './components/spinner/spinner.component';
 
 @NgModule({
-  imports: [CommonModule, RouterModule, HttpClientModule],
+  imports: [
+    CommonModule,
+    RouterModule,
+    HttpClientModule,
+    MatProgressSpinnerModule,
+  ],
   exports: [
     CommonModule,
     RouterModule,
@@ -15,7 +22,13 @@ import { SidebarComponent } from './components/sidebar/sidebar.component';
     FooterComponent,
     NavbarComponent,
     SidebarComponent,
+    SpinnerComponent,
   ],
-  declarations: [FooterComponent, NavbarComponent, SidebarComponent],
+  declarations: [
+    FooterComponent,
+    NavbarComponent,
+    SidebarComponent,
+    SpinnerComponent,
+  ],
 })
 export class SharedModule {}

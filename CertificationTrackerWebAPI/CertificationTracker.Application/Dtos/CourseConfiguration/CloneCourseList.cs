@@ -9,6 +9,6 @@ namespace CertificationTracker.Application.Dtos.CourseConfiguration
     public class CloneCourseList
     {
         public string CourseTitle { get; set; } = string.Empty;
-        public decimal PostcourseId { get; set; }
+        public decimal PostCourseId { get; set; }
     }
 }
