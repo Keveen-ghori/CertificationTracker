@@ -1,10 +1,4 @@
-import {
-  Component,
-  ElementRef,
-  OnDestroy,
-  OnInit,
-  Renderer2,
-} from '@angular/core';
+import { Component, ElementRef, OnDestroy, OnInit } from '@angular/core';
 import {
   AbstractControl,
   FormBuilder,
@@ -12,16 +6,11 @@ import {
   ValidationErrors,
   Validators,
 } from '@angular/forms';
-import {
-  DialogService,
-  DynamicDialogConfig,
-  DynamicDialogRef,
-} from 'primeng/dynamicdialog';
+import { DynamicDialogConfig } from 'primeng/dynamicdialog';
 import { Subject, takeUntil } from 'rxjs';
+import { containsAll } from 'src/app/core/Constants/containsAll';
 import { ApiResponse } from 'src/app/core/interfaces/apiResponse.interface';
-import { ActionButtons } from 'src/app/core/interfaces/courseConfiguration/actionbuttons.interface';
 import { CourseConfigurations } from 'src/app/core/interfaces/courseConfiguration/courseConfigurations.interface';
-import { CourseTrainingDetail } from 'src/app/core/interfaces/courseConfiguration/courseTrainingDetail.interface';
 import { POSTCourseService } from 'src/app/core/services/course.service';
 
 @Component({
@@ -32,155 +21,66 @@ import { POSTCourseService } from 'src/app/core/services/course.service';
 export class CourseDetailDialog implements OnInit, OnDestroy {
   private destroy$: Subject<void> = new Subject<void>();
 
-  courseID!: number;
+  POSTCourseID: number = 0;
 
-  cloneCourseID!: number;
+  ClonePOSTCourseID: number = 0;
 
-  actionButtons: ActionButtons[] = [
-    {
-      label: 'Save and Close',
-      icon: 'pi pi-save',
-      type: 'submit',
-      visible: true,
-    },
-    {
-      label: 'Add Areas',
-      icon: 'pi pi-hashtag',
-      type: 'submit',
-      visible: false,
-    },
-    {
-      label: 'Confirm All Student',
-      icon: 'pi pi-verified',
-      type: 'submit',
-      visible: false,
-    },
-    {
-      label: 'Edit Student Credit',
-      icon: 'pi pi-file-edit',
-      type: 'submit',
-      visible: false,
-    },
-    {
-      label: 'Save',
-      icon: 'pi pi-save',
-      type: 'submit',
-      visible: false,
-    },
-    {
-      label: 'Clone And Continue',
-      icon: 'pi pi-save',
-      type: 'submit',
-      visible: false,
-    },
-    {
-      label: 'Cancel',
-      icon: 'pi pi-times',
-      type: 'button',
-      visible: true,
-    },
-  ];
-
-  courseConfigurations!: CourseConfigurations;
+  courseDetails!: CourseConfigurations;
 
   courseConfigurationsForm!: FormGroup;
 
-  showApplicableAreaTable: boolean = false;
+  invalidDate: string = '';
+
+  submitted: boolean = false;
 
   isOutsideDepartment: boolean = false;
 
-  submitted = false;
+  isPostApplicableAreaListReadOnly: boolean = false;
 
-  invalidDate: string = '';
+  showApplicableAreaTable: boolean = false;
 
-  isPostApplicableAreaListReadOnly!: boolean;
+  isValid: boolean = true;
+
+  errorMessage: string = '';
+
+  AttendanceHours: number = 0;
+
+  showBtnSaveAndExitCourseDetails: boolean = false;
+
+  showApplicableAreasTable: boolean = false;
+
+  showBtnSaveCourseDetails: boolean = false;
+
+  showBtnConfirmCourseDetails: boolean = false;
+  showBtnEditStudentCredits: boolean = false;
+
+  showBtnAddAreas: boolean = false;
+
+  showBtnClone: boolean = false;
+
+  isValidCourseDetails: boolean = true;
+
+  isValidConfirmDetails: boolean = false;
+
+  validateCourseAtServer: boolean = false;
 
   isEmployeesDeleted: boolean = false;
 
-  confirmSave: boolean = false;
-
-  // POSTCourseID!: number;
-
-  isValidForConfirmStudent: boolean = false;
-
-  confirmTrainingRecords: boolean = false;
-
-  studentsData: CourseTrainingDetail = {
-    pOSTCourseID: 0,
-    employees: '',
-    attendanceHours: 0,
-  };
-
-  confirmEdit: boolean = false;
-
-  confirmStudentBtn: boolean = false;
-
-  editCreditsBtn: boolean = false;
-
-  isValidCourseAtServer: boolean = false;
+  isCourseDetailsValid: boolean = false;
 
   constructor(
-    public ref: DynamicDialogRef,
-    public config: DynamicDialogConfig,
     private courseService: POSTCourseService,
+    public config: DynamicDialogConfig,
     private formBuilder: FormBuilder,
-    private el: ElementRef,
-    public dialogService: DialogService
+    private el: ElementRef
   ) {}
 
   ngOnInit(): void {
-    this.courseID = this.config.data?.courseID;
-    this.cloneCourseID = this.config.data?.cloneCourseID;
+    this.courseDetails = this.config.data?.CourseDetails;
 
-    this.courseService
-      .CourseDetails(this.courseID, this.cloneCourseID)
-      .pipe(takeUntil(this.destroy$))
-      .subscribe((response: ApiResponse) => {
-        this.courseConfigurations = response.content;
-        this.isOutsideDepartment =
-          this.courseConfigurations.inSideLocation ?? false;
-
-        if (
-          this.courseConfigurations.postCourseID != null &&
-          this.courseConfigurations.postCourseID != 0
-        ) {
-          this.showApplicableAreaTable = true;
-          this.actionButtons[0].visible = true;
-          this.actionButtons[4].visible = true;
-          this.actionButtons[1].visible = false;
-        } else {
-          this.showApplicableAreaTable = false;
-          this.actionButtons[1].visible = true;
-        }
-        if (
-          this.courseConfigurations.mainCourseIDOfClone != null &&
-          this.courseConfigurations.mainCourseIDOfClone != 0
-        ) {
-          this.actionButtons[5].visible = true;
-          this.isPostApplicableAreaListReadOnly = true;
-          this.actionButtons[0].visible = false;
-          this.actionButtons[1].visible = false;
-        }
-        var endDate;
-        if (
-          this.courseConfigurations.endDate?.toString() &&
-          Date.parse(this.courseConfigurations.endDate?.toString())
-        ) {
-          endDate = new Date(this.courseConfigurations.endDate?.toString());
-        }
-        debugger;
-        if (
-          this.courseConfigurations.postApplicableAreaDetails.length !== 0 &&
-          this.courseConfigurations.employeeDetail.length !== 0 &&
-          endDate != null &&
-          endDate < new Date() &&
-          this.isPostApplicableAreaListReadOnly
-        ) {
-          this.actionButtons[2].visible = true;
-          this.actionButtons[3].visible = true;
-          this.showApplicableAreaTable = true;
-        }
-      });
+    this.ClonePOSTCourseID = this.courseDetails.mainCourseIDOfClone;
+    this.POSTCourseID = this.courseDetails.postCourseID;
+    this.AttendanceHours = this.courseDetails.attendanceHours ?? 0;
 
     this.courseConfigurationsForm = this.formBuilder.group({
       courseTitle: ['', Validators.required],
@@ -199,19 +99,38 @@ export class CourseDetailDialog implements OnInit, OnDestroy {
       employeeDetail: [''],
     });
 
+    this.patchCourseDetailValues();
+    debugger;
+    if (this.POSTCourseID != 0 && this.POSTCourseID != null) {
+      this.showApplicableAreaTable = true;
+      this.showBtnSaveAndExitCourseDetails = true;
+      this.showBtnSaveCourseDetails = true;
+    } else {
+      this.showApplicableAreaTable = false;
+      this.showBtnAddAreas = true;
+      this.showBtnSaveAndExitCourseDetails = true;
+    }
+
+    if (this.ClonePOSTCourseID != 0 && this.ClonePOSTCourseID != null) {
+      this.isPostApplicableAreaListReadOnly = true;
+      this.showBtnClone = true;
+      this.showBtnAddAreas = false;
+      this.showBtnSaveAndExitCourseDetails = false;
+    }
+
     setTimeout(() => {
-      this.setValue();
-    }, 500);
+      this.ValidateConfirmTraining();
+    }, 150);
   }
 
   get f() {
     return this.courseConfigurationsForm.controls;
   }
 
-  setValue() {
-    const startDateString =
-      this.courseConfigurations?.startDate?.toString() ?? '';
-    const endDateString = this.courseConfigurations?.endDate?.toString() ?? '';
+  patchCourseDetailValues = () => {
+    debugger;
+    const startDateString = this.courseDetails?.startDate?.toString() ?? '';
+    const endDateString = this.courseDetails?.endDate?.toString() ?? '';
     let startDate: Date | null = null;
     let endDate: Date | null = null;
 
@@ -223,38 +142,138 @@ export class CourseDetailDialog implements OnInit, OnDestroy {
     }
 
     this.courseConfigurationsForm.patchValue({
-      courseTitle: this.courseConfigurations.courseTitle,
-      sponsor: this.courseConfigurations.sponsor,
+      courseTitle: this.courseDetails.courseTitle,
+      sponsor: this.courseDetails.sponsor,
       startDate: startDate,
       endDate: endDate,
-      courseHours: this.courseConfigurations.courseHours ?? 0,
-      courseFee: this.courseConfigurations.courseFee ?? 0,
-      inSideLocation: this.courseConfigurations.inSideLocation,
-      addressName: this.courseConfigurations.addressName,
-      street: this.courseConfigurations.street,
-      city: this.courseConfigurations.city,
-      state: this.courseConfigurations.state,
-      zip: this.courseConfigurations.zip,
-      comment: this.courseConfigurations.comment,
+      courseHours: this.courseDetails.courseHours ?? 0,
+      courseFee: this.courseDetails.courseFee ?? 0,
+      inSideLocation: !this.isOutsideDepartment,
+      addressName: this.courseDetails.addressName,
+      street: this.courseDetails.street,
+      city: this.courseDetails.city,
+      state: this.courseDetails.state,
+      zip: this.courseDetails.zip,
+      comment: this.courseDetails.comment,
       employeeDetail: this.employeeDetailsPatchValue(),
     });
+    console.log(this.courseDetails.listEmployee);
 
-    this.isOutsideDepartment = !(
-      this.courseConfigurations.inSideLocation ?? true
-    );
-  }
+    this.isOutsideDepartment = !(this.courseDetails.inSideLocation ?? true);
+  };
 
   employeeDetailsPatchValue = () => {
-    return this.courseConfigurations.lstEmployees.filter((em: any) => {
-      return this.courseConfigurations.listEmployee.includes(Number(em.value));
+    return this.courseDetails.lstEmployees.filter((em: any) => {
+      return this.courseDetails.listEmployee.includes(Number(em.value));
     });
   };
 
-  onSubmit(flag: string) {
+  ValidateConfirmTraining() {
+    var courseStartDate =
+      this.courseConfigurationsForm.get('startDate')?.value ?? '';
+    var courseEndDate =
+      this.courseConfigurationsForm.get('endDate')?.value ?? '';
+    var courseSDate = new Date(courseStartDate);
+    var courseEDate = new Date(courseEndDate);
+
+    if (courseStartDate != '' && courseEndDate == '') {
+      this.courseConfigurationsForm.patchValue({ endDate: courseSDate });
+    } else if (courseStartDate == '' && courseEndDate != '') {
+      this.courseConfigurationsForm.patchValue({ startDate: courseEDate });
+    }
+
+    if (
+      courseStartDate == '' ||
+      courseEndDate == '' ||
+      (courseStartDate != '' &&
+        courseEndDate != '' &&
+        courseEDate < courseSDate) ||
+      this.courseConfigurationsForm.get('courseHours')?.value == null ||
+      this.courseConfigurationsForm.get('courseHours')?.value == '0'
+    ) {
+      this.isValidCourseDetails = false;
+    }
+
+    var selectedItem_POSTEmployees =
+      this.courseConfigurationsForm.get('employeeDetail')?.value;
+    this.courseService
+      .validateCourseAtServer(this.courseDetails.postCourseID)
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((response: ApiResponse) => {
+        this.errorMessage = response.content;
+
+        if (this.errorMessage == '') {
+          this.validateCourseAtServer = true;
+          this.isValid = true;
+        }
+
+        if (this.isValidCourseDetails) {
+          var endDate = this.courseConfigurationsForm.get('endDate')?.value;
+          var eDate = new Date(endDate);
+          var currentDate = new Date();
+          currentDate.setHours(0, 0, 0, 0);
+          if (
+            eDate <= currentDate &&
+            this.courseDetails.postCourseID.toString() != '0' &&
+            (this.isValid ||
+              (!this.isValid &&
+                this.errorMessage ==
+                  'Please select Employee before confirm training')) &&
+            selectedItem_POSTEmployees.length != null &&
+            selectedItem_POSTEmployees != undefined &&
+            selectedItem_POSTEmployees.length > 0
+          ) {
+            this.isValidConfirmDetails = true;
+          } else {
+            this.isValidConfirmDetails = false;
+          }
+        }
+
+        if (this.isValidConfirmDetails) {
+          this.showBtnConfirmCourseDetails = true;
+          this.showBtnEditStudentCredits = true;
+        } else {
+          this.showBtnConfirmCourseDetails = false;
+          this.showBtnEditStudentCredits = false;
+        }
+      });
+  }
+
+  // street(control: AbstractControl): Promise<ValidationErrors | null> {
+  //   debugger;
+  //   const isOutsideDepartment = control.parent?.get('inSideLocation')?.value;
+  //   const street = control.parent?.get('street')?.value;
+
+  //   return new Promise((resolve) => {
+  //     setTimeout(() => {
+  //       if (isOutsideDepartment == false && street == '') {
+  //         resolve({ streetError: 'Please enter Street' });
+  //       } else {
+  //         resolve(null);
+  //       }
+  //     }, 0);
+  //   });
+  // }
+
+  street(control: AbstractControl): ValidationErrors | null {
+    const isOutsideDepartment = control.parent?.get('inSideLocation')?.value;
+    const street = control.parent?.get('street')?.value;
+
+    if (isOutsideDepartment == false && street == '') {
+      return { streetError: 'Please enter Street' };
+    }
+    return null;
+  }
+
+  onSubmit = (control: string) => {
+    if (this.isCourseDetailsValid) {
+    }
+  };
+
+  validCourseDetail() {
     debugger;
     this.submitted = true;
     const validationError = this.ValidateCourseDetail();
-
     if (this.courseConfigurationsForm.invalid) {
       this.invalidDate = validationError;
       for (const key of Object.keys(this.courseConfigurationsForm.controls)) {
@@ -266,96 +285,18 @@ export class CourseDetailDialog implements OnInit, OnDestroy {
           break;
         }
       }
+      this.isCourseDetailsValid = false;
+    } else this.isCourseDetailsValid = true;
+  }
 
-      return;
-    } else {
-      if (this.confirmSave) {
-        const startDateString =
-          this.courseConfigurationsForm.get('startDate')?.value;
-        const startDateObject = new Date(startDateString);
+  ValidateCourseDetail() {
+    const startDate = this.f['startDate'].value;
+    const endDate = this.f['endDate'].value;
 
-        const startDateObjectyear = startDateObject.getFullYear();
-        const startDateObjectmonth = String(
-          startDateObject.getMonth() + 1
-        ).padStart(2, '0');
-        const startDateObjectday = String(startDateObject.getDate()).padStart(
-          2,
-          '0'
-        );
-
-        const formattedStartDate = new Date(
-          `${startDateObjectyear}-${startDateObjectmonth}-${startDateObjectday}`
-        );
-
-        const endDateString =
-          this.courseConfigurationsForm.get('endDate')?.value;
-        const endDateObject = new Date(endDateString);
-
-        const endDateObjectyear = endDateObject.getFullYear();
-        const endDateObjectmonth = String(
-          endDateObject.getMonth() + 1
-        ).padStart(2, '0');
-        const endDateObjectday = String(endDateObject.getDate()).padStart(
-          2,
-          '0'
-        );
-
-        const formattedEndDate = `${endDateObjectyear}-${endDateObjectmonth}-${endDateObjectday}`;
-
-        this.courseConfigurations.courseTitle =
-          this.courseConfigurationsForm.get('courseTitle')?.value;
-        this.courseConfigurations.sponsor =
-          this.courseConfigurationsForm.get('sponsor')?.value ?? '';
-        this.courseConfigurations.startDate = formattedStartDate;
-        this.courseConfigurations.endDate = new Date(formattedEndDate);
-        this.courseConfigurations.courseHours =
-          this.courseConfigurationsForm.get('courseHours')?.value ?? 0;
-        this.courseConfigurations.courseFee =
-          this.courseConfigurationsForm.get('courseFee')?.value;
-        this.courseConfigurations.inSideLocation = !this.isOutsideDepartment;
-        this.courseConfigurations.addressName =
-          this.courseConfigurationsForm.get('addressName')?.value ?? '';
-        this.courseConfigurations.street =
-          this.courseConfigurationsForm.get('street')?.value ?? '';
-        this.courseConfigurations.city =
-          this.courseConfigurationsForm.get('city')?.value ?? '';
-        this.courseConfigurations.state =
-          this.courseConfigurationsForm.get('state')?.value ?? '';
-        this.courseConfigurations.zip =
-          this.courseConfigurationsForm.get('zip')?.value ?? '';
-        this.courseConfigurations.comment =
-          this.courseConfigurationsForm.get('comment')?.value ?? '';
-        const employeeDetailValue =
-          this.courseConfigurationsForm.get('employeeDetail')?.value;
-        this.courseConfigurations.employeeDetail =
-          typeof employeeDetailValue === 'string'
-            ? employeeDetailValue
-            : JSON.stringify(employeeDetailValue) || '';
-
-        this.courseService
-          .SavePOSTCourseDetails(this.courseConfigurations)
-          .pipe(takeUntil(this.destroy$))
-          .subscribe((response: ApiResponse) => {
-            this.courseID = response.content;
-            console.log(response.content);
-            debugger;
-            if (flag == 'confirm') {
-              if (this.confirmTrainingRecords) {
-                this.dialogCloseEvent(true, this.courseID);
-              }
-            }
-            if (flag == 'saveAndClose') {
-              this.dialogCloseEvent(true, this.courseID);
-            }
-            if (flag == 'edit') {
-              if (this.confirmEdit) {
-                this.EditStudentCredits();
-                this.editCreditsBtn = true;
-              }
-            }
-          });
-      }
+    if (startDate != '' && endDate != '' && endDate < startDate) {
+      return 'Start Date should be less than End Date';
     }
+    return '';
   }
 
   location(event: any) {
@@ -369,201 +310,51 @@ export class CourseDetailDialog implements OnInit, OnDestroy {
     });
   }
 
-  ValidateCourseDetail() {
-    const startDate = this.f['startDate'].value;
-    const endDate = this.f['endDate'].value;
-
-    if (startDate != '' && endDate != '' && endDate < startDate) {
-      return 'Start Date should be less than End Date';
-    }
-    return '';
-  }
-
-  street(control: AbstractControl): ValidationErrors | null {
-    const isOutsideDepartment = control.parent?.get('inSideLocation')?.value;
-    const street = control.parent?.get('street')?.value;
-
-    if (isOutsideDepartment == false && street == '') {
-      return { streetError: 'Please enter Street' };
-    }
-    return null;
-  }
-
   selectEmployee(event: any) {
-    var selectedEmployee = event.value;
-
-    if (
-      selectedEmployee.length != 0 &&
-      this.courseConfigurations.postApplicableAreaDetails.length != 0 &&
-      this.isPostApplicableAreaListReadOnly
-    ) {
-      this.actionButtons[2].visible = true;
-      this.actionButtons[3].visible = true;
-    } else {
-      this.actionButtons[2].visible = false;
-      this.actionButtons[3].visible = false;
-    }
+    this.ValidateConfirmTraining();
   }
 
-  btnName(name: string) {
-    if (name == 'Cancel') {
-      this.dialogCloseEvent(true);
+  btnSaveAndCloseCourseDetails_Click = () => {
+    debugger;
+    this.validCourseDetail();
+    if (this.isCourseDetailsValid) {
+      this.checkIfEmployeesDeleted();
+      if (this.isEmployeesDeleted) {
+      }
     }
-    if (this.courseConfigurationsForm.status == 'INVALID') {
-      return;
-    } else {
-      if (name == 'Add Areas') {
-        this.showApplicableAreaTable = true;
-      }
-      if (name == 'Save and Close' || name == 'Save') {
-        this.checkIfEmployeesDeleted(
-          this.courseID ?? 0,
-          name == 'Save and Close'
-            ? 'saveAndClose'
-            : name == 'Save'
-            ? 'save'
-            : ''
-        );
-      }
-      setTimeout(() => {
-        if (this.isEmployeesDeleted == false) {
-          this.confirmSave = true;
-          if (name == 'Save') {
-            this.onSubmit('save');
-          }
-          if (name == 'Save and Close') {
-            this.onSubmit('saveAndClose');
-          }
-        }
-      }, 1000);
+  };
 
-      if (name == 'Confirm All Student') {
-        // this.onSubmit('confirm');
-        this.confirmStudentBtn = true;
-      }
-      if (name == 'Edit Student Credit') {
-        this.onSubmit('edit');
-      }
-    }
-  }
+  btnConfirmTraining_Click = () => {
+    console.log('btnConfirmTraining_Click');
+  };
 
-  dialogCloseEvent(confirmation: boolean, data?: any) {
-    if (confirmation) {
-      this.ref.close(data);
-    }
-  }
-  endDateValidation(event: any) {
-    if (
-      this.courseConfigurationsForm.get('endDate')?.value != null &&
-      this.courseConfigurationsForm.get('endDate')?.value < new Date()
-    ) {
-      this.actionButtons[2].visible = true;
-      this.actionButtons[3].visible = true;
-      this.showApplicableAreaTable = true;
-    } else {
-      this.actionButtons[2].visible = false;
-      this.actionButtons[3].visible = false;
-      this.showApplicableAreaTable = true;
-    }
-  }
-  btn!: string;
+  btnEditStudentCredits_Click = () => {
+    console.log('btnEditStudentCredits_Click');
+  };
 
-  checkIfEmployeesDeleted(POSTCourseID: number, name: string) {
-    if (
-      JSON.stringify(this.employeeDetailsPatchValue()) ===
-      JSON.stringify(this.courseConfigurationsForm.get('employeeDetail')?.value)
-    ) {
+  btnSaveCourseDetails_Click = () => {
+    console.log('btnSaveCourseDetails_Click');
+  };
+
+  btnExitCourseDetails_Click = () => {
+    console.log('btnExitCourseDetails_Click');
+  };
+
+  checkIfEmployeesDeleted() {
+    var names = this.courseConfigurationsForm.get('employeeDetail')?.value;
+    var lstPOSTEmployees = this.employeeDetailsPatchValue();
+
+    if (containsAll(lstPOSTEmployees, names)) {
       this.isEmployeesDeleted = false;
     } else {
       this.courseService
-        .CheckTrainingRecordAvailForEmployee(POSTCourseID)
+        .CheckTrainingRecordAvailForEmployee(this.POSTCourseID)
         .pipe(takeUntil(this.destroy$))
         .subscribe((response: ApiResponse) => {
-          debugger;
           this.isEmployeesDeleted = response.content;
-          console.log(this.isEmployeesDeleted);
-          this.btn = name;
         });
     }
   }
-
-  confirmSaveBtnClick(flag: boolean, btn: string) {
-    debugger;
-    this.confirmSave = flag;
-    if (this.confirmSave) {
-      this.onSubmit(btn);
-    }
-  }
-
-  ConfirmTrainingDetails(flag: boolean, btn: string) {
-    debugger;
-    this.confirmTrainingRecords = flag;
-    this.validateCourseAtServer();
-    if (this.confirmTrainingRecords && this.isValidCourseAtServer) {
-      this.FinalConfirmTraining();
-      this.onSubmit(btn);
-    }
-  }
-  FinalConfirmTraining() {
-    debugger;
-    this.studentsData.pOSTCourseID = this.courseID;
-    this.studentsData.employees =
-      this.courseConfigurationsForm.get('employeeDetail')?.value;
-    this.studentsData.attendanceHours =
-      this.courseConfigurations.attendanceHours !== undefined &&
-      this.courseConfigurations.attendanceHours !== null
-        ? this.courseConfigurations.attendanceHours
-        : this.courseConfigurationsForm.get('courseHours')?.value != null
-        ? this.courseConfigurationsForm.get('courseHours')?.value
-        : 0;
-
-    this.courseService
-      .ConfirmTraining(this.studentsData)
-      .pipe(takeUntil(this.destroy$))
-      .subscribe((response: ApiResponse) => {
-        this.dialogCloseEvent(true);
-      });
-  }
-
-  confirmEditCredit(flag: boolean, btn: string) {
-    this.confirmEdit = flag;
-    if (this.isValidCourseAtServer) {
-      this.EditStudentCredits();
-      this.onSubmit(btn);
-    }
-  }
-  EditStudentCredits() {
-    this.studentsData.pOSTCourseID = this.courseID;
-    this.studentsData.employees =
-      this.courseConfigurationsForm.get('employeeDetail')?.value;
-    this.studentsData.attendanceHours =
-      this.courseConfigurations.attendanceHours !== undefined &&
-      this.courseConfigurations.attendanceHours !== null
-        ? this.courseConfigurations.attendanceHours
-        : this.courseConfigurationsForm.get('courseHours')?.value != null
-        ? this.courseConfigurationsForm.get('courseHours')?.value
-        : 0;
-
-    this.courseService
-      .SaveCourseWithEmployeeDetail(this.studentsData)
-      .pipe(takeUntil(this.destroy$))
-      .subscribe((response: ApiResponse) => {
-        this.dialogCloseEvent(true);
-      });
-  }
-  errorMessage: string = '';
-  validateCourseAtServer() {
-    this.courseService
-      .validateCourseAtServer(Number(this.courseID))
-      .pipe(takeUntil(this.destroy$))
-      .subscribe((response: ApiResponse) => {
-        this.errorMessage = response.content;
-        if (this.errorMessage != '' || this.errorMessage != null) {
-          this.isValidCourseAtServer = true;
-        }
-      });
-  }
-
   ngOnDestroy() {
     this.destroy$.next();
     this.destroy$.complete();

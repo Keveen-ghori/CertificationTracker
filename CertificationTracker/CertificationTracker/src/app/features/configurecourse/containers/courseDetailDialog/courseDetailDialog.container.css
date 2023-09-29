@@ -181,7 +181,7 @@ textarea {
 }
 
 ::ng-deep .p-inputnumber-input {
-  width: 160px;
+  width: 202px;
 }
 
 ::ng-deep .p-inputnumber-button {
@@ -235,4 +235,9 @@ textarea {
 
 ::ng-deep .p-datatable .p-datatable-tbody > tr > td {
   padding: 0.5rem 0.5rem;
+}
+
+::ng-deep .currency {
+  height: 35px;
+  width: 100%;
 }

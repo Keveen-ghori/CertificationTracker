@@ -10,6 +10,7 @@ import { POSTCourseService } from 'src/app/core/services/course.service';
 import { NotificationService } from 'src/app/core/services/notification.service';
 import { ChooseCourseContainer } from '../containers/chooseCourseContainer/chooseCourse.container';
 import { CourseDetailDialog } from '../containers/courseDetailDialog/courseDetailDialog.container';
+import { CourseConfigurations } from 'src/app/core/interfaces/courseConfiguration/courseConfigurations.interface';
 
 @Component({
   selector: 'app-course-configuration',
@@ -28,6 +29,8 @@ export class CourseConfigurationComponent implements OnInit, OnDestroy {
   date: Date | undefined;
 
   totalRecordsCount: number = 0;
+
+  courseConfigurations!: CourseConfigurations;
 
   filter: CourseFilter = {
     includeArchived: false,
@@ -121,23 +124,23 @@ export class CourseConfigurationComponent implements OnInit, OnDestroy {
       contentStyle: { overflow: 'auto' },
       baseZIndex: 10000,
     });
-
     this.ref.onClose.subscribe((data: any) => {
-      if (data.flag === 'CourseDetail') {
-        this.ref = this.dialogService.open(CourseDetailDialog, {
-          header: 'Course Detail',
-          width: '1000px',
-          height: '692px',
-          contentStyle: { overflow: 'auto' },
-          baseZIndex: 10001,
-          data: {
-            courseID: data.courseID,
-            cloneCourseID: data.cloneCourseID,
-            flag: data.flag,
-          },
+      this.courseService
+        .CourseDetails(data.courseID, data.cloneCourseID)
+        .subscribe((response: ApiResponse) => {
+          this.courseConfigurations = response.content;
+
+          this.ref = this.dialogService.open(CourseDetailDialog, {
+            header: 'Course Detail',
+            width: '1000px',
+            height: '692px',
+            contentStyle: { overflow: 'auto' },
+            baseZIndex: 10001,
+            data: {
+              CourseDetails: this.courseConfigurations,
+            },
+          });
         });
-      } else {
-      }
     });
   }
 
@@ -146,22 +149,22 @@ export class CourseConfigurationComponent implements OnInit, OnDestroy {
   ViewCourseDetailInfo(postCourseID: number) {}
 
   OpenCourseDetailInfo(postCourseID: number) {
-    this.ref = this.dialogService.open(CourseDetailDialog, {
-      header: 'Course Detail',
-      width: '1000px',
-      height: '692px',
-      contentStyle: { overflow: 'auto' },
-      baseZIndex: 10001,
-      data: {
-        courseID: postCourseID,
-        cloneCourseID: 0,
-      },
-    });
+    this.courseService
+      .CourseDetails(postCourseID)
+      .subscribe((response: ApiResponse) => {
+        this.courseConfigurations = response.content;
 
-    this.ref.onClose.subscribe((data: any) => {
-      debugger;
-      this.filteredCourseData();
-    });
+        this.ref = this.dialogService.open(CourseDetailDialog, {
+          header: 'Course Detail',
+          width: '1000px',
+          height: '692px',
+          contentStyle: { overflow: 'auto' },
+          baseZIndex: 10000,
+          data: {
+            CourseDetails: this.courseConfigurations,
+          },
+        });
+      });
   }
 
   DeletePOSTCourseDetail(postCourseID: number) {}

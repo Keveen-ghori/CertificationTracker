@@ -28,10 +28,11 @@ export class ChooseCourseContainer implements OnInit, OnDestroy {
 
   CloneCourseID: number = 0;
 
+  emptyCourseError: boolean = false;
+
   constructor(
     private ref: DynamicDialogRef,
-    private courseService: POSTCourseService,
-    private notification: NotificationService
+    private courseService: POSTCourseService
   ) {}
 
   chooseCourseExit_Click = (flag: string) => {
@@ -55,28 +56,28 @@ export class ChooseCourseContainer implements OnInit, OnDestroy {
   };
 
   chooseCourseNext_Click = (flag: string) => {
-    if (this.showDropdown) {
-      if (this.selectedCourse == null) {
-        this.notification.showError(
-          'Please select course that to be cloned',
-          'Choose Course'
-        );
-        this.cloneCourseValidation = 'Please select course that to be cloned';
-      } else {
-        this.CloneCourseID = this.selectedCourse.postCourseId;
-        this.courseID = 0;
-        this.cloneCourseValidation = '';
-      }
+    if (flag === 'Exit') {
+      this.ref.close();
     } else {
-      this.courseID = 0;
-    }
+      if (this.showDropdown) {
+        if (this.selectedCourse == null) {
+          this.emptyCourseError = true;
+          this.cloneCourseValidation = 'Please select course that to be cloned';
+        } else {
+          this.CloneCourseID = this.selectedCourse.postCourseId;
+          this.courseID = 0;
+          this.cloneCourseValidation = '';
+        }
+      } else {
+        this.courseID = 0;
+      }
 
-    if (this.cloneCourseValidation == '') {
-      this.ref.close({
-        courseID: this.courseID,
-        flag,
-        cloneCourseID: this.CloneCourseID,
-      });
+      if (this.cloneCourseValidation == '') {
+        this.ref.close({
+          courseID: this.courseID,
+          cloneCourseID: this.CloneCourseID,
+        });
+      }
     }
   };
 

@@ -7,7 +7,6 @@
   </div>
 
   <form [formGroup]="courseConfigurationsForm" novalidate>
-    <!-- (ngSubmit)="onSubmit()" -->
     <div class="form-row">
       <div class="value">
         <div class="row row-space">
@@ -37,7 +36,7 @@
               <input
                 class="input--style-5 form-control"
                 type="text"
-                name="sponsor"
+                formControlName="sponsor"
               />
             </div>
           </div>
@@ -56,6 +55,7 @@
                 formControlName="startDate"
                 [ngClass]="{ 'is-invalid': submitted && f['startDate'].errors }"
                 class="date"
+                (onSelect)="ValidateConfirmTraining()"
               ></p-calendar>
               <div
                 *ngIf="submitted && f['startDate'].errors"
@@ -75,9 +75,10 @@
                 inputId="icon"
                 formControlName="endDate"
                 [ngClass]="{ 'is-invalid': submitted && f['endDate'].errors}"
-                (onSelect)="endDateValidation($event)"
                 class="date"
+                (onSelect)="ValidateConfirmTraining()"
               ></p-calendar>
+              <!-- (onSelect)="endDateValidation($event)" -->
               <div
                 *ngIf="submitted && f['endDate'].errors"
                 class="invalid-feedback"
@@ -118,7 +119,8 @@
                 locale="en-US"
                 [minFractionDigits]="2"
                 formControlName="courseFee"
-                [ngClass]="{ 'is-invalid': submitted && f['courseFee'].errors }"
+                [ngClass]="{'is-invalid': submitted && f['courseFee'].errors }"
+                styleClass="currency"
               ></p-inputNumber>
               <div
                 *ngIf="submitted && f['courseFee'].errors"
@@ -249,7 +251,7 @@
         <div class="name">Students</div>
         <div class="input-group">
           <p-multiSelect
-            [options]="courseConfigurations?.lstEmployees"
+            [options]="courseDetails?.lstEmployees"
             defaultLabel="Select Students"
             optionLabel="displayString"
             [style]="{'width': '895px', 'line-height': '12px'}"
@@ -262,7 +264,7 @@
     <ng-container *ngIf=" isPostApplicableAreaListReadOnly">
       <div id="grdPOSTApplicableAreaListReadOnly">
         <p-table
-          [value]="courseConfigurations.postApplicableAreaDetails"
+          [value]="courseDetails.postApplicableAreaDetails"
           [paginator]="true"
           [rows]="5"
           [responsive]="true"
@@ -306,7 +308,7 @@
     <ng-container *ngIf="showApplicableAreaTable">
       <div id="grdPOSTApplicableAreaList">
         <p-table
-          [value]="courseConfigurations.postApplicableAreaDetails"
+          [value]="courseDetails.postApplicableAreaDetails"
           [paginator]="true"
           [rows]="5"
           [responsive]="true"
@@ -347,7 +349,7 @@
       </div>
     </ng-container>
     <div class="course-detail-dialog-btn">
-      <ng-container *ngFor="let btn of actionButtons">
+      <!-- <ng-container *ngFor="let btn of actionButtons">
         <div *ngIf="btn.visible">
           <p-button
             [label]="btn.label"
@@ -357,65 +359,56 @@
             (onClick)="btnName(btn.label)"
           ></p-button>
         </div>
-      </ng-container>
+      </ng-container> -->
+      <p-button
+        label="Save & Close"
+        [ngClass]="{'d-none': !showBtnSaveAndExitCourseDetails}"
+        (onClick)="btnSaveAndCloseCourseDetails_Click()"
+        styleClass="p-button-raised new-btn"
+      ></p-button>
+
+      <p-button
+        label="Clone & Continue"
+        [ngClass]="{'d-none': !showBtnClone}"
+        (onClick)="btnSaveCourseDetails_Click()"
+        styleClass="p-button-raised new-btn"
+      ></p-button>
+
+      <p-button
+        label="Add Areas"
+        [ngClass]="{'d-none': !showBtnAddAreas}"
+        (onClick)="btnSaveCourseDetails_Click()"
+        styleClass="p-button-raised new-btn"
+      ></p-button>
+
+      <p-button
+        label="Confirm All Students"
+        [ngClass]="{'d-none': !showBtnConfirmCourseDetails}"
+        (onClick)="btnConfirmTraining_Click()"
+        styleClass="p-button-raised new-btn"
+      ></p-button>
+
+      <p-button
+        label="Edit Student Credits"
+        [ngClass]="{'d-none': !showBtnEditStudentCredits}"
+        (onClick)="btnEditStudentCredits_Click()"
+        styleClass="p-button-raised new-btn"
+      ></p-button>
+
+      <p-button
+        label="Save"
+        [ngClass]="{'d-none': !showBtnSaveCourseDetails}"
+        (onClick)="btnSaveCourseDetails_Click()"
+        styleClass="p-button-raised new-btn"
+      ></p-button>
+
+      <p-button
+        label="Cancel"
+        (onClick)="btnExitCourseDetails_Click()"
+        styleClass="p-button-raised new-btn"
+      ></p-button>
     </div>
   </form>
 </div>
 
-<p-dialog
-  header="Confirmation"
-  [(visible)]="isEmployeesDeleted"
-  [style]="{width: '50vw'}"
-  [baseZIndex]="10000"
-  [modal]="true"
-  [draggable]="false"
-  [resizable]="false"
->
-  <p>
-    Removing student(s) from the course will delete training data available, Are
-    you sure you want to continue?
-  </p>
-  <ng-template pTemplate="footer">
-    <p-button
-      icon="pi pi-check"
-      (onClick)="confirmSaveBtnClick(true, btn)"
-      label="Yes"
-      class="btn3"
-    ></p-button>
-    <p-button
-      icon="pi pi-times"
-      (onClick)="confirmSaveBtnClick(false, btn)"
-      label="No"
-      class="btn3"
-    ></p-button>
-  </ng-template>
-</p-dialog>
-
-<p-dialog
-  header="Confirmation"
-  [(visible)]="confirmStudentBtn"
-  [style]="{width: '50vw'}"
-  [baseZIndex]="10050"
-  [modal]="true"
-  [draggable]="false"
-  [resizable]="false"
->
-  <p>
-    The students in this course will be confirmed with the credits specified. Do
-    you wish to confirm?
-  </p>
-  <ng-template pTemplate="footer">
-    <p-button
-      icon="pi pi-check"
-      (onClick)="ConfirmTrainingDetails(true, 'confirm')"
-      label="Yes"
-      class="btn3"
-    ></p-button>
-    <p-button
-      icon="pi pi-times"
-      (onClick)="ConfirmTrainingDetails(false, 'confirm')"
-      label="No"
-      class="btn3"
-    ></p-button>
-  </ng-template>
-</p-dialog>
+<!-- <app-confirmation-dialog></app-confirmation-dialog> -->

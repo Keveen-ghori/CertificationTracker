@@ -59,7 +59,6 @@ import { CourseDetailDialog } from './configurecourse/containers/courseDetailDia
 import { MultiSelectModule } from 'primeng/multiselect';
 import { CalendarModule } from 'primeng/calendar';
 import { InputNumberModule } from 'primeng/inputnumber';
-import { CourseRecordsExistsDialog } from './configurecourse/containers/checkRecordsExistsDialog/checkRecordsExistsDialog.container';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
 
 
@@ -134,7 +133,6 @@ const materialModules = [
     CourseConfigurationComponent,
     ChooseCourseContainer,
     CourseDetailDialog,
-    CourseRecordsExistsDialog,
   ],
   providers: [
     {

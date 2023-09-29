@@ -39,7 +39,7 @@ export class POSTCourseService {
 
   CourseDetails = (
     POSTCourseID: number,
-    ClonePOSTCourseID: number
+    ClonePOSTCourseID: number = 0
   ): Observable<ApiResponse> => {
     return this.httpClient
       .get<ApiResponse>(
@@ -52,7 +52,6 @@ export class POSTCourseService {
   SavePOSTCourseDetails = (
     courseConfigurations: CourseConfigurations
   ): Observable<ApiResponse> => {
-    debugger;
     return this.httpClient
       .post<ApiResponse>(
         `${environment.TRACKER_API}/PostCourseConfiguration/SavePOSTCourseDetails`,
@@ -76,7 +75,6 @@ export class POSTCourseService {
   ConfirmTraining = (
     studentsData: CourseTrainingDetail
   ): Observable<ApiResponse> => {
-    debugger;
     return this.httpClient
       .post<ApiResponse>(
         `${environment.TRACKER_API}/PostCourseConfiguration/ConfirmTraining`,
@@ -89,7 +87,6 @@ export class POSTCourseService {
   SaveCourseWithEmployeeDetail = (
     studentsData: CourseTrainingDetail
   ): Observable<ApiResponse> => {
-    debugger;
     return this.httpClient
       .post<ApiResponse>(
         `${environment.TRACKER_API}/PostCourseConfiguration/SaveCourseWithEmployeeDetail`,
@@ -100,7 +97,6 @@ export class POSTCourseService {
   };
 
   validateCourseAtServer = (POSTCourseID: number): Observable<ApiResponse> => {
-    debugger;
     return this.httpClient
       .get<ApiResponse>(
         `${environment.TRACKER_API}/PostCourseConfiguration/ValidateCourseAtServer?POSTCourseID=${POSTCourseID}`,
